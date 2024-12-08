@@ -1,6 +1,9 @@
 from flask import Flask
 from urllib.parse import quote
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
+
+
 
 app = Flask(__name__)
 app.secret_key = '^%^&%^(*^^^&&*^(*^^&$%&*&*%^&$&$%$$$$#$%^'
@@ -20,4 +23,6 @@ app.config['SO_LUONG_SAN_BAY'] = 10
 # CẤU HÌNH CHUNG
 app.config["VERTICAL_MAX"]= 3
 
+
 db = SQLAlchemy(app)
+login = LoginManager(app)

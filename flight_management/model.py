@@ -2,6 +2,7 @@
 from flight_management import app, db
 import hashlib
 import enum
+from flask_login import UserMixin
 from sqlalchemy import Column, String, Float, Integer, ForeignKey, Boolean, DateTime, Enum, Text, column, Interval, UniqueConstraint, CheckConstraint
 from sqlalchemy.orm import relationship
 from datetime import datetime, date, time
@@ -32,13 +33,13 @@ class Profile(db.Model):
     phone = Column(String(10), unique=True)
     cccd = Column(String(12), unique=True)
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = Column(Integer, ForeignKey(Profile.id), primary_key=True,nullable=False, unique=True)
     username = Column(String(50),unique=True)
     password = Column(String(50))
     avatar = Column(String(50))             #thêm defaulf vào
     user_role = Column(Enum(UserRole))
-    profile = relationship('Profile', backref='user', lazy=True)
+    profile = relationship("Profile", backref="user", lazy=True)
 
     def __str__(self):
         return f"{self.user_role.name} - {self.name}"
@@ -198,34 +199,34 @@ if __name__== "__main__":
     with app.app_context():
         db.create_all()
 
-        p1 = Profile(name="Thảo Trang")
-        p2 = Profile(name="Trang Lee")
-        p3 = Profile(name="Nguyễn Văn A")
-        db.session.add_all([p1,p2,p3])
-        db.session.commit()
-        acc1 = User(id=p1.id, username="TrangThao", password=str(hashlib.md5("123".encode("utf-8")).hexdigest()), user_role=UserRole.ADMIN)
-        acc2 = User(id=p2.id, username="TrangLee", password=str(hashlib.md5("123".encode("utf-8")).hexdigest()),ser_role=UserRole.STAFF)
-        acc3 = User(id=p3.id, username="user", password=str(hashlib.md5("123".encode("utf-8")).hexdigest()), user_role=UserRole.CUSTOMER)
-        db.session.add_all([acc1, acc2, acc3])
-        db.session.commit()
-
-        airport1 = Airport(name='Noi Bai', airport_address='Ha Noi')
-        airport2 = Airport(name='Tan Son Nhat', airport_address='TP Ho Chi Minh')
-        airport3 = Airport(name='Can Tho', airport_address='Can Tho')
-        airport4 = Airport(name='Da Nang', airport_address='Da Nang')
-        airport5 = Airport(name='Ca Mau', airport_address='Ca Mau')
-        airport6 = Airport(name='Phu Quoc', airport_address='Phu Quoc')
-        airport7 = Airport(name='Dien Bien Phu', airport_address='Dien Bien')
-        airport8 = Airport(name='Tho Xuan', airport_address='Thanh Hoa')
-        airport9 = Airport(name='Phu Bai', airport_address='Hue')
-        airport10 = Airport(name='Pleiku', airport_address='Pleiku')
-        airport11 = Airport(name='Chu Lai', airport_address='Chu Lai')
-        airport12 = Airport(name='Dong Hoi', airport_address='Dong Hoi')
-        airport13 = Airport(name='Rach Gia', airport_address='Rach Gia')
-        airport14 = Airport(name='Buon Ma Thuot', airport_address='Buon Ma Thuot')
-        airport15 = Airport(name='Lien Khuong', airport_address='Lien Khuong')
-        airport16 = Airport(name='Con Dao', airport_address='Con Dao')
-        airport17 = Airport(name='Vinh ', airport_address='Vinh ')
-
-        db.session.add_all([airport1, airport2, airport3, airport4, airport5, airport6, airport7, airport8, airport9, airport10, airport11, airport12, airport13, airport14, airport15, airport16, airport17])
-        db.session.commit()
+        # p1 = Profile(name="Thảo Trang")
+        # p2 = Profile(name="Trang Lee")
+        # p3 = Profile(name="Nguyễn Văn A")
+        # db.session.add_all([p1,p2,p3])
+        # db.session.commit()
+        # acc1 = User(id=p1.id, username="TrangThao", password=str(hashlib.md5("123".encode("utf-8")).hexdigest()), user_role=UserRole.ADMIN)
+        # acc2 = User(id=p2.id, username="TrangLee", password=str(hashlib.md5("123".encode("utf-8")).hexdigest()),ser_role=UserRole.STAFF)
+        # acc3 = User(id=p3.id, username="user", password=str(hashlib.md5("123".encode("utf-8")).hexdigest()), user_role=UserRole.CUSTOMER)
+        # db.session.add_all([acc1, acc2, acc3])
+        # db.session.commit()
+        #
+        # airport1 = Airport(name='Noi Bai', airport_address='Ha Noi')
+        # airport2 = Airport(name='Tan Son Nhat', airport_address='TP Ho Chi Minh')
+        # airport3 = Airport(name='Can Tho', airport_address='Can Tho')
+        # airport4 = Airport(name='Da Nang', airport_address='Da Nang')
+        # airport5 = Airport(name='Ca Mau', airport_address='Ca Mau')
+        # airport6 = Airport(name='Phu Quoc', airport_address='Phu Quoc')
+        # airport7 = Airport(name='Dien Bien Phu', airport_address='Dien Bien')
+        # airport8 = Airport(name='Tho Xuan', airport_address='Thanh Hoa')
+        # airport9 = Airport(name='Phu Bai', airport_address='Hue')
+        # airport10 = Airport(name='Pleiku', airport_address='Pleiku')
+        # airport11 = Airport(name='Chu Lai', airport_address='Chu Lai')
+        # airport12 = Airport(name='Dong Hoi', airport_address='Dong Hoi')
+        # airport13 = Airport(name='Rach Gia', airport_address='Rach Gia')
+        # airport14 = Airport(name='Buon Ma Thuot', airport_address='Buon Ma Thuot')
+        # airport15 = Airport(name='Lien Khuong', airport_address='Lien Khuong')
+        # airport16 = Airport(name='Con Dao', airport_address='Con Dao')
+        # airport17 = Airport(name='Vinh ', airport_address='Vinh ')
+        #
+        # db.session.add_all([airport1, airport2, airport3, airport4, airport5, airport6, airport7, airport8, airport9, airport10, airport11, airport12, airport13, airport14, airport15, airport16, airport17])
+        # db.session.commit()

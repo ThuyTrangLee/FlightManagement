@@ -1,10 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>TRANG CHỦ</title>
-</head>
-<body>
-<H1>WELCOME</H1>
-</body>
-</html>
+{% extends 'layout/base.html' %}
+
+{% block title %}
+    Trang chủ
+{% endblock%}
+
+{% block content %}
+<!--Slider-->
+<div class="slider">
+    <div class="slider-content">
+        <div class="slider--item">
+            <div class="desc">
+                <h1>Hà Nội</h1>
+                <span>Thủ đô hà nội</span>
+            </div>
+        </div>
+        <div class="slider--item">
+            <div class="desc">
+                <h1>Đà Nẵng</h1>
+                <span>Thành phố Đà Nẵng</span>
+            </div>
+        </div>
+        <div class="slider--item">
+            <div class="desc">
+                <h1>Thành phố Hồ Chí Minh</h1>
+                <span>Thành phố không ngủ</span>
+            </div>
+        </div>
+    </div>
+</div>
+<button type="button" class = "btn book" data-bs-toggle="modal" data-bs-target="#myModal">Đặt vé</button>
+<!--End slider-->
+
+<!--Book ticket modal-->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal header -->
+             <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <h4 class="modal-title">Đặt vé <i class="fa-solid fa-ticket"></i></h4>
+             </div>
+
+             <!-- Modal bpdy -->
+              <div class="modal-body">
+                <div class="nav modal-header-btn">
+                    <li class="nav-item one-way active-modal-header faded" onclick="toggleActiveModal(this)">Khứ hồi</li>
+                    <li class="nav-item round-trip faded" onclick="toggleActiveModal(this)">Một chiều</li>
+                </div>
+                <div class="tab-content">
+                    <div class="container active"><br>
+                      <form class="row g-2 justify-content-around" method="POST" action="">
+                          <div class="form-group col-5">
+                            <label for="departure">Điểm đi</label>
+                            <select id="departure" name="departure">
+<!--                                  {% for i in range(0, locations|length) %}-->
+<!--                                    <option value="{{ locations[i].id }}">{{locations[i].id ~ ' - ' ~ locations[i].name}}</option>-->
+<!--                                {% endfor %}-->
+                            </select>
+                          </div>
+                          <div class="form-group col-5">
+                            <label for="destination">Điểm đến</label>
+                            <select id="destination" name="destination">
+<!--                                  {% for i in range(0, locations|length) %}-->
+<!--                                    <option value="{{ locations[i].id }}">{{locations[i].id ~ ' - ' ~ locations[i].name}}</option>-->
+<!--                                {% endfor %}-->
+                            </select>
+                          </div>
+                           <div class="form-group quantity-input col-2">
+                                <label for="quantity-tickets">Số lượng vé</label>
+                                <div class="quantity-input">
+                                    <button type="button" class="quantity-btn" onclick="quantityTickets('decrease')">-</button>
+                                    <input id="quantity-tickets" name="quantity-tickets" type="number" value="0" min="0" max="9" readonly/>
+                                    <button type="button" class="quantity-btn" onclick="quantityTickets('increase')">+</button>
+                                </div>
+                            </div>
+                          <div class="form-group col-6">
+                            <label for="departure-date">Ngày đi</label>
+                            <input type="date" class="form-control" id="departure-date" name="departure-date" placeholder="Điểm đi">
+                          </div>
+                          <div class="form-group col-6">
+                              <label for="return-date">Ngày về</label>
+                              <input type="date" class="form-control" id="return-date" name="return-date" placeholder="Điểm đến">
+                          </div>
+                          <!-- Modal footer -->
+                          <div class="modal-footer">
+                            <button class="btn book-ticket-btn" type="submit">Tìm vé</button>
+                          </div>
+                      </form>
+                    </div>
+              </div>
+
+        </div>
+    </div>
+</div>
+{% endblock%}
