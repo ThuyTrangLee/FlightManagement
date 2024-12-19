@@ -19,7 +19,7 @@ app.config['SO_LUONG_HANG_VE'] = 2
 app.config['SO_LUONG_SAN_BAY'] = 10
 
 # CẤU HÌNH CHUNG
-app.config["VERTICAL_MAX"]= 3
+# app.config["VERTICAL_MAX"]= 3
 
 
 db = SQLAlchemy(app)
