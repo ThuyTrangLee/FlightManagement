@@ -60,11 +60,11 @@ def user_load(user_id):
 
 @app.route('/')
 def index():
-    # if current_user.is_authenticated:
-    #     if current_user.user_role == UserRole.ADMIN:
-    #         return redirect("/admin")
-    #     return redirect(url_for('home'))
-    # return redirect(url_for('login_process'))
+    # Kiểm tra quyền khi đăng nhập
+    if current_user.is_authenticated:
+        if current_user.user_role == UserRole.ADMIN:
+            return redirect("/admin")
+        return redirect(url_for('home'))
     return render_template("index.html")
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -73,6 +73,9 @@ def login_process():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        print(username)
+        print(password)
+
         user = dao.auth_user(username=username, password=password)
         if user:
             login_user(user)
