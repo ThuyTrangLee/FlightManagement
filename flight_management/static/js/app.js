@@ -1,14 +1,3 @@
-//$(".slider-content").slick({
-//	centerMode: true,
-//	centerPadding: "60px",
-//	slidesToShow: 1,
-//	autoplay: true,
-//	autoplaySpeed: 2000,
-//	prevArrow:
-//		"<button type='button' class='slick-prev pull-left'><i class='fa fa-angle-left' aria-hidden='true'></i></button>",
-//	nextArrow:
-//		"<button type='button' class='slick-next pull-right'><i class='fa fa-angle-right' aria-hidden='true'></i></button>",
-//});
 const sign_in_btn = document.querySelector("#sign-in-btn");
 const sign_up_btn = document.querySelector("#sign-up-btn");
 const formal = document.querySelector(".formal");
@@ -30,4 +19,3 @@ sign_up_btn2.addEventListener("click", () => {
 sign_in_btn2.addEventListener("click", () => {
   formal.classList.remove("sign-up-mode2");
 });
-

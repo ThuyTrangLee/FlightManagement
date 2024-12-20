@@ -35,6 +35,7 @@ class Profile(db.Model):
     phone = Column(String(10), unique=True)
     cccd = Column(String(12), unique=True)
 
+
 class User(db.Model, UserMixin):
     id = Column(Integer, ForeignKey(Profile.id), primary_key=True, nullable=False, unique=True)
     username = Column(String(50), unique=True)
