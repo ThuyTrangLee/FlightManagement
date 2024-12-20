@@ -3,21 +3,99 @@
 {% block title %} Đăng nhập {% endblock %}
 
 {% block content %}
-
-
-<div class="login">
-    <div>
-        <form action="/login" method="POST" class="form_login_register">
-            <div class="mb-3 mt-3">
-              <label for="username" class="form-label">Tên đăng nhập:</label>
-              <input type="text" class="form-control" id="username" placeholder="Tên đăng nhập" name="=username">
+<div class="main_form">
+    <div class="formal">
+        <div class="signin-signup">
+            <form action="/login" class="sign-in-form" id="page" method="POST">
+                <h2 class="title">Đăng nhập</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Email" name="username"/>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Mật khẩu" name="password"/>
+                </div>
+                <input type="submit" value="Đăng nhập" class="btn1"/><a href=""></a>
+                <p class="social-text">Hoặc kết nối với</p>
+                <div class="social">
+                    <a href="#" class="social-icon1">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="" class="social-icon1">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="" class="social-icon1">
+                        <i class="fab fa-google"></i>
+                    </a>
+                    <a href="" class="social-icon1">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+                <p class="account-text">
+                    Chưa có tài khoản? <a href="#" id="sign-up-btn2">Đăng ký</a>
+                </p>
+            </form>
+            <form action="/" class="sign-up-form" method="POST" id="page">
+                <h2 class="title">Đăng ký</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Tên sử dụng"/>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="text" placeholder="Email"/>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Mật khẩu"/>
+                </div>
+                <input type="submit" value="Đăng ký" class="btn1"/>
+                <p class="social-text">Hoặc kết nối với</p>
+                <div class="social">
+                    <a href="#" class="social-icon1">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="" class="social-icon1">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="" class="social-icon1">
+                        <i class="fab fa-google"></i>
+                    </a>
+                    <a href="" class="social-icon1">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+                <p class="account-text">
+                    Đã có tài khoản? <a href="/login" id="sign-in-btn2">Đăng nhập</a>
+                </p>
+            </form>
+        </div>
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>AniPET Xin chào!</h3>
+                    <p>
+                        Hãy để chúng tôi nhận được sự tin tưởng của bạn bằng cách trở
+                        thành một trong những thành viên của gia đình AniPET.
+                    </p>
+                    <button class="btn1" id="sign-in-btn">Đăng nhập</button>
+                </div>
+                <img src="signin.svg" alt="" class="image"/>
             </div>
-            <div class="mb-3">
-              <label for="pwd" class="form-label">Password:</label>
-              <input type="password" class="form-control" id="pwd" placeholder="Mật khẩu" name="password">
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>AniPET chào mừng bạn đã trở lại!</h3>
+                    <p>
+                        Đăng nhập tài khoản hiện tại của bạn để cùng đến với gia đình
+                        AniPET
+                    </p>
+                    <button class="btn1" id="sign-up-btn">Đăng ký</button>
+                </div>
+                <img src="signup.svg" alt="" class="image"/>
             </div>
-            <button type="submit" class="btn btn-primary">Đăng nhập</button>
-        </form>
+        </div>
     </div>
 </div>
+
 {% endblock%}

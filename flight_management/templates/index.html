@@ -1,96 +1,202 @@
 {% extends 'layout/base.html' %}
 
 {% block title %}
-    Trang chủ
+Trang chủ
 {% endblock%}
 
 {% block content %}
 <!--Slider-->
-<div class="slider">
-    <div class="slider-content">
-        <div class="slider--item">
-            <div class="desc">
-                <h1>Hà Nội</h1>
-                <span>Thủ đô hà nội</span>
-            </div>
-        </div>
-        <div class="slider--item">
-            <div class="desc">
-                <h1>Đà Nẵng</h1>
-                <span>Thành phố Đà Nẵng</span>
-            </div>
-        </div>
-        <div class="slider--item">
-            <div class="desc">
-                <h1>Thành phố Hồ Chí Minh</h1>
-                <span>Thành phố không ngủ</span>
-            </div>
-        </div>
-    </div>
-</div>
-<button type="button" class = "btn book" data-bs-toggle="modal" data-bs-target="#myModal">Đặt vé</button>
-<!--End slider-->
+<div class="hero_section">
+    <div class="hero_slide">
+        <div class="owl-carousel carousel-nav-center" id="hero-carousel">
+            <!-- Slide Item -->
+            <div class="hero-slide-item">
+                <img src="/static/images/tphcm.jpg" alt="slide1"/>
+                <div class="overplay"></div>
+                <div class="hero-slide-item-content">
+                    <div class="item-content-wraper delay-2">
+                        <div class="item-content-title top-down delay-4"> Thành phố Hồ Chí Minh</div>
+                        <div class="item-content-description top-down delay-6">
+                            Hòn ngọc Viễn Đông của Đông Nam Á để lại ấn tượng sâu sắc ngay từ lần đầu tiên với bất kỳ ai
+                            đã từng một lần đặt chân tới
+                        </div>
 
-<!--Book ticket modal-->
-<div class="modal fade" id="myModal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <!-- Modal header -->
-             <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                <h4 class="modal-title">Đặt vé <i class="fa-solid fa-ticket"></i></h4>
-             </div>
-
-             <!-- Modal bpdy -->
-              <div class="modal-body">
-                <div class="nav modal-header-btn">
-                    <li class="nav-item one-way active-modal-header faded" onclick="toggleActiveModal(this)">Khứ hồi</li>
-                    <li class="nav-item round-trip faded" onclick="toggleActiveModal(this)">Một chiều</li>
-                </div>
-                <div class="tab-content">
-                    <div class="container active"><br>
-                      <form class="row g-2 justify-content-around" method="POST" action="">
-                          <div class="form-group col-5">
-                            <label for="departure">Điểm đi</label>
-                            <select id="departure" name="departure">
-<!--                                  {% for i in range(0, locations|length) %}-->
-<!--                                    <option value="{{ locations[i].id }}">{{locations[i].id ~ ' - ' ~ locations[i].name}}</option>-->
-<!--                                {% endfor %}-->
-                            </select>
-                          </div>
-                          <div class="form-group col-5">
-                            <label for="destination">Điểm đến</label>
-                            <select id="destination" name="destination">
-<!--                                  {% for i in range(0, locations|length) %}-->
-<!--                                    <option value="{{ locations[i].id }}">{{locations[i].id ~ ' - ' ~ locations[i].name}}</option>-->
-<!--                                {% endfor %}-->
-                            </select>
-                          </div>
-                           <div class="form-group quantity-input col-2">
-                                <label for="quantity-tickets">Số lượng vé</label>
-                                <div class="quantity-input">
-                                    <button type="button" class="quantity-btn" onclick="quantityTickets('decrease')">-</button>
-                                    <input id="quantity-tickets" name="quantity-tickets" type="number" value="0" min="0" max="9" readonly/>
-                                    <button type="button" class="quantity-btn" onclick="quantityTickets('increase')">+</button>
-                                </div>
-                            </div>
-                          <div class="form-group col-6">
-                            <label for="departure-date">Ngày đi</label>
-                            <input type="date" class="form-control" id="departure-date" name="departure-date" placeholder="Điểm đi">
-                          </div>
-                          <div class="form-group col-6">
-                              <label for="return-date">Ngày về</label>
-                              <input type="date" class="form-control" id="return-date" name="return-date" placeholder="Điểm đến">
-                          </div>
-                          <!-- Modal footer -->
-                          <div class="modal-footer">
-                            <button class="btn book-ticket-btn" type="submit">Tìm vé</button>
-                          </div>
-                      </form>
                     </div>
-              </div>
-
+                </div>
+            </div>
+            <!--slide item  -->
+            <div class="hero-slide-item">
+                <img src="/static/images/thudoHN.jpg" alt="slide1"/>
+                <div class="overplay"></div>
+                <div class="hero-slide-item-content">
+                    <div class="item-content-wraper delay-2">
+                        <div class="item-content-title top-down delay-4">Hà Nội</div>
+                        <div class="item-content-description top-down delay-6">
+                            Được mệnh danh là “trái tim của Việt Nam”, Thủ Đô Hà Nội lưu giữ những vẻ đẹp tuyệt mỹ từ
+                            cảnh quan, mang đến cho bạn những cảm nhận và những trải nghiệm đa dạng về lịch sử, văn hóa,
+                            con người, ẩm thực của Việt Nam
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END ITEM -->
+            <!-- slide item -->
+            <div class="hero-slide-item">
+                <img src="/static/images/danang.jpg" alt="slide1"/>
+                <div class="overplay"></div>
+                <div class="hero-slide-item-content">
+                    <div class="item-content-wraper delay-2">
+                        <div class="item-content-title top-down delay-4">Đà Nẵng</div>
+                        <div class="item-content-description top-down delay-6">
+                            Đến với Đà Nẵng để mê mẩn trước những bãi cát trắng, đắm mình giữa làn nước xanh dưới cái
+                            nắng vàng ươm. Bạn sẽ ngỡ mình đang lạc vào chốn tiên cảnh nhân gian.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END ITEM -->
         </div>
     </div>
 </div>
-{% endblock%}
+<!--<button type="button" class="btn book" data-bs-toggle="modal" data-bs-target="#myModal">Đặt vé</button>-->
+<!--End slider-->
+<!-- tin tức -->
+<div class="section-news">
+    <div class="contanier">
+        <h1 class="main_title" style="text-transform: uppercase;">Dịch vụ bổ trợ</h1>
+    </div>
+    <div id="formList">
+        <div id="list">
+            <div class="ite">
+                <img src="/static/images/quatang.jpg" class="avatar">
+                <div class="content">
+                    <h3 class="text-center">
+                        <a href="#">Quà tặng Nova Airways</a>
+                    </h3>
+                    <div class="description-news">
+                        <p>
+                            Những món quà lưu niệm của Nova Airways luôn nhận được sự yêu thích của hành khách.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ite">
+                <img src="/static/images/chongoi.jpg" class="avatar">
+                <div class="content">
+                    <h3 class="text-center">
+                        <a href="#">Chọn chỗ ngồi yêu thích</a>
+                    </h3>
+                    <div class="description-news">
+                        <p>Lựa chọn ghế ngồi yêu thích của bạn trên chuyến bay ngay hôm nay.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ite">
+                <img src="/static/images/amthuc.jpg" class="avatar">
+                <div class="content">
+                    <h3 class="text-center">
+                        <a href="#">Dịch vụ ẩm thực</a>
+                    </h3>
+                    <div class="description-news">
+                        <p>Thưởng thức dịch vụ ẩm thực tùy chọn trực tiếp trên chuyến bay của Bamboo Airways.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ite">
+                <img src="/static/images/hanhly.jpg" class="avatar">
+                <div class="content">
+                    <h3 class="text-center">
+                        <a href="#">Mua thêm hành lý</a>
+                    </h3>
+                    <div class="description-news">
+                        <p>Bạn có thể nâng trọng lượng hành lý ký gửi của mình theo các gói đa dạng và linh hoạt.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="direction">
+            <button id="prev"> <</button>
+            <button id="next"> ></button>
+        </div>
+    </div>
+
+
+    <!--Book ticket modal-->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal header -->
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h4 class="modal-title">Đặt vé <i class="fa-solid fa-ticket"></i></h4>
+                </div>
+
+                <!-- Modal bpdy -->
+                <div class="modal-body">
+                    <div class="nav modal-header-btn">
+                        <li class="nav-item one-way active-modal-header faded" onclick="toggleActiveModal(this)">Khứ hồi
+                        </li>
+                        <li class="nav-item round-trip faded" onclick="toggleActiveModal(this)">Một chiều</li>
+                    </div>
+                    <div class="tab-content">
+                        <div class="container active"><br>
+                            <form class="row g-2 justify-content-around" method="POST" action="">
+                                <div class="form-group col-5">
+                                    <label for="departure">Điểm đi</label>
+                                    <select id="departure" name="departure">
+                                        {% for i in range(0, locations|length) %}
+                                        <option value="{{ locations[i].id }}">{{locations[i].id ~ ' - ' ~
+                                            locations[i].name}}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group col-5">
+                                    <label for="destination">Điểm đến</label>
+                                    <select id="destination" name="destination">
+                                        {% for i in range(0, locations|length) %}
+                                        <option value="{{ locations[i].id }}">{{locations[i].id ~ ' - ' ~
+                                            locations[i].name}}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group quantity-input col-2">
+                                    <label for="quantity-tickets">Số lượng vé</label>
+                                    <div class="quantity-input">
+                                        <button type="button" class="quantity-btn"
+                                                onclick="quantityTickets('decrease')">-
+                                        </button>
+                                        <input id="quantity-tickets" name="quantity-tickets" type="number" value="0"
+                                               min="0"
+                                               max="9" readonly/>
+                                        <button type="button" class="quantity-btn"
+                                                onclick="quantityTickets('increase')">+
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="departure-date">Ngày đi</label>
+                                    <input type="date" class="form-control" id="departure-date" name="departure-date"
+                                           placeholder="Điểm đi">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="return-date">Ngày về</label>
+                                    <input type="date" class="form-control" id="return-date" name="return-date"
+                                           placeholder="Điểm đến">
+                                </div>
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button class="btn book-ticket-btn" type="submit">Tìm vé</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endblock%}

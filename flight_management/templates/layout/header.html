@@ -1,31 +1,29 @@
-<header class="header">
-    <div class="header_left">
-        My <span> Airline </span>
-    </div>
-    <div class="header-right">
-        {% if current_user.is_authenticated %}
-        <div class="top">
+<header id="header">
+    <div class="content">
+        <nav class="navbar">
+            <a href="/" class="logo">
+                <img src="/static/images/logonew.png" alt="Logo"/>
+                <span>Nova<span class="main-color">Airways</span></span>
+            </a>
+            <ul class="menu" id="nav_menu">
+                <li><a href="/" class="item" id="ab" class="active">Trang&nbsp;chủ</a></li>
+                <li><a href="/" class="item">Khám&nbsp;phá</a></li>
+                <li><a href="" class="item">Tra&nbsp;cứu&nbsp;chuyến&nbsp;bay</a></li>
+                <li><a href="" class="item">Đặt&nbsp;vé</a></li>
+                <li><a href="" class="item">Trợ&nbsp;giúp</a></li>
+                <li><a href="" class="item">Liên&nbsp;hệ</a></li>
+
+            </ul>
+            {% if current_user.is_authenticated %}
             <a type="submit" class="btn--log header--log-out btn-top" href="/logout">Thoát </a>
-            <a type="submit" class="btn--log header--log-out btn-top">Chào mừng {{ current_user.first_name}}</a>
-        </div>
-        {% else %}
-        <div class="top">
-            <a type="submit" class="btn--log header--log-out btn-top" href="/"> Trang chủ </a>
-            <a type="submit" class="btn--log header--log-out btn-top" href=""> Đăng kí </a>
-            <a type="submit" class="btn--log header--log-out btn-top" href=""> Đăng nhập </a>
-        </div>
-        {% endif %}
-        <div class="bottom">
-            <nav class="services">
-                <ul>
-                    <ul class="header--nav">
-                        <li><a href="">Tra cứu chuyến bay</a></li>
-                        <li><a href="">Tin tức</a></li>
-                        <li><a href="">Dịch vụ khác</a></li>
-                        <li><a href="">Liên hệ</a></li>
-                    </ul>
-                </ul>
-            </nav>
-        </div>
+            {%else %}
+            <div class="actions">
+                <a href="/login" class="login btn"><p class="text">Đăng nhập</p></a>
+            </div>
+            {%endif %}
+        </nav>
+        <button type="button" class="nav-toggler">
+            <span></span>
+        </button>
     </div>
 </header>

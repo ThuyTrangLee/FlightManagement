@@ -5,6 +5,7 @@ from flask_login import LoginManager
 
 
 
+
 app = Flask(__name__)
 app.secret_key = '^%^&%^(*^^^&&*^(*^^&$%&*&*%^&$&$%$$$$#$%^'
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:%s@localhost/flight_management?charset=utf8mb4" % quote('1234')
@@ -21,7 +22,7 @@ app.config['SO_LUONG_HANG_VE'] = 2
 app.config['SO_LUONG_SAN_BAY'] = 10
 
 # CẤU HÌNH CHUNG
-app.config["VERTICAL_MAX"]= 3
+# app.config["VERTICAL_MAX"]= 3
 
 
 db = SQLAlchemy(app)
