@@ -67,12 +67,11 @@ class FlightView(MybaseView):
 
 admin = Admin(app, name='Quản lý chuyến bay')
 admin.theme.fluid = True
-admin.add_view(RoutesView(model.Routes, db.session, name='Tuyến bay'))
-admin.add_view(MybaseView(model.RoutesInfo, db.session, name='Chi tiết tuyến bay'))
-admin.add_view(FlightView(model.Flight, db.session, name='Chuyến bay'))
-admin.add_view(MybaseView(model.FlightSchedule, db.session, name='Lập lịch chuyển bay'))
-admin.add_view(MybaseView(model.FareClass, db.session, name='Hạng vé'))
+admin.add_view(MybaseView(model.User, db.session, name="Tài khoản"))
+admin.add_view(MybaseView(model.Profile, db.session, name='Thông tin'))
+admin.add_view(MybaseView(model.FlightRoute, db.session, name='Tuyến bay'))
+admin.add_view(MybaseView(model.Flight, db.session, name='Chuyến bay'))
+admin.add_view(MybaseView(model.TicketClass, db.session, name='Hạng vé'))
 admin.add_view(MybaseView(model.Seat, db.session, name='Ghế'))
-admin.add_view(MybaseView(model.Ticket, db.session, name='Vé'))
-admin.add_view(MybaseView(model.Settings, db.session, name='Quy định'))
+admin.add_view(MybaseView(model.Setting, db.session, name='Quy định'))
 admin.add_view(LogoutView(name='Đăng xuất'))
