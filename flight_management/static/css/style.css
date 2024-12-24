@@ -588,16 +588,10 @@ footer a.logo:hover {
   color: #fff;
 }
 
-a.btn--log.header--log-out.btn-top {
-    cursor: pointer;
-    font-size: 1.5rem;
-    /*margin: 0px 50px 0px 350px;*/
-    margin: 0 auto;
-    margin-left: 20px;
-    color: black;
-    padding: 8px;
-    font-weight: 500;
-    background : linear-gradient(274deg, rgba(239,59,54,1) 50%,rgba(255,255,255,1) 60%);
-    border-radius: 10px;
+.logo_logout {
+  font-weight: bold;
+  font-family: "Montserrat";
+  color: black;
+  font-size: 1.5rem;
+  font-weight: 200px;
 }
-

@@ -14,13 +14,23 @@
                 <li><a href="/contact" class="item">Liên&nbsp;hệ</a></li>
 
             </ul>
-            {% if current_user.is_authenticated %}
-            <a type="submit" class="btn--log header--log-out btn-top" href="/log_out">THOÁT </a>
-            {%else %}
-            <div class="actions">
-                <a href="/login" class="login btn"><p class="text">Đăng nhập</p></a>
-            </div>
-            {%endif %}
+            <ul>
+                {% if current_user.is_authenticated %}
+                <a class="logo_logout " href="/">
+                    <img src="{{ current_user.avatar }}" loading="lazy"
+                         style="width: 50px; height: 50px; object-fit: cover; font-family:Montserrat" alt="logo"/>{{
+                    current_user.getName() }}.
+                </a>
+                <a href="/log_out">
+                        <i class="fa fa-sign-out"
+                           style="padding: 10px; margin-left: 10px; font-size: 18px; color: #CC0000" ></i>
+                </a>
+                {%else %}
+                <div class="actions">
+                    <a href="/login" class="login btn"><p class="text">Đăng nhập</p></a>
+                </div>
+                {%endif %}
+            </ul>
         </nav>
         <button type="button" class="nav-toggler">
             <span></span>

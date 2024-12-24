@@ -2,7 +2,7 @@
 {% block body %}
 <div class="container rounded shadow-lg">
     <form action="/api/create_flight_schedule" method="POST">
-        <h1 class="mt-1 mb-5 text-center text-info">lập Lịch Chuyến Bay</h1>
+        <h1 class="mt-1 mb-5 text-center text-info">Lập Lịch Chuyến Bay</h1>
         <div class="row justify-content-center">
             <div class="col-md-6 mb-2 mt-2">
                 <label class="form-label">Tuyến bay:</label>
@@ -52,7 +52,7 @@
                         class="form-control"
                         name="flight_duration"
                         min="0"
-                        step="50"
+                        step="5"
                         required
                 />
             </div>

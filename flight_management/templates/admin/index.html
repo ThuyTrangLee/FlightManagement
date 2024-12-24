@@ -1,4 +1,20 @@
 {% extends 'admin/master.html' %}
+{% block access_control %}
+<ul class="navbar-nav me-1">
+    {% if current_user.is_authenticated %}
+    <li class="nav-item">
+        <a class="nav-link text-danger" href="/">
+            <img class="rounded-circle" src="{{ current_user.avatar }}" loading="lazy"
+                 style="width: 30px; height: 30px; object-fit: cover;"/>
+            {{ current_user.username }}.
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-success" href="/log_out" >Đăng xuất</a>
+    </li>
+    {% endif %}
+</ul>
+{% endblock %}
 {% block body %}
 <h1 class="text-center">Chào mừng tới trang quản trị</h1>
 {% if current_user.is_authenticated %}

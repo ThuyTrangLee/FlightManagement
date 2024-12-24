@@ -63,22 +63,26 @@ class User(Base, UserMixin):
     id = Column(Integer, ForeignKey(Profile.id), primary_key=True, nullable=False, unique=True)
     username = Column(String(50), unique=True)
     password = Column(String(50))
+    avatar = Column(String(100), default="https://res.cloudinary.com/dcztds1is/image/upload/v1735012111/logo_kpzaej.jpg")
     user_role = Column(Enum(UserRole),default=UserRole.CUSTOMER)
     profile = relationship("Profile", backref="user", lazy=True)
 
     def __str__(self):
-        return f"{self.user_role.name} - {self.name}"
+        return f"{self.user_role.name} - {self.profile.name}"
 
-class Staff(db.Model):
-    id = Column(Integer, ForeignKey(User.id), primary_key=True, unique=True, nullable=False)
-    user = relationship("User", backref="staff", lazy=True)
-    flight_schedules = relationship("Flight", backref="staff", lazy=True)
+    def getName(self):
+        return f"{self.profile.name}"
+
+# class Staff(db.Model):
+#     id = Column(Integer, ForeignKey(User.id), primary_key=True, unique=True, nullable=False)
+#     user = relationship("User", backref="staff", lazy=True)
+#     flight_schedules = relationship("Flight", backref="staff", lazy=True)
 
 
-class Customer(db.Model):
-    id = Column(Integer, ForeignKey(User.id), primary_key=True, unique=True, nullable=False)
-    user = relationship("User", backref="customer", lazy=True)
-    ticket = relationship("Ticket", backref="customer", lazy=True)
+# class Customer(db.Model):
+#     id = Column(Integer, ForeignKey(User.id), primary_key=True, unique=True, nullable=False)
+#     user = relationship("User", backref="customer", lazy=True)
+#     ticket = relationship("Ticket", backref="customer", lazy=True)
 
 
 # sân bay
@@ -165,7 +169,7 @@ class Flight(Base):
     flight_route_id = Column(Integer, ForeignKey('flight_route.id'), nullable=False)
     flight_route = relationship('FlightRoute', foreign_keys=[flight_route_id], lazy=True)
 
-    staff_id = Column(Integer, ForeignKey('staff.id'), nullable=True)
+    staff_id = Column(Integer, ForeignKey('user.id'), nullable=True)
 
     plane_id = Column(Integer, ForeignKey('plane.id'), nullable=False)
     plane = relationship('Plane', foreign_keys=[plane_id], lazy=True)
@@ -189,7 +193,7 @@ class FlightTicketClass(Base):
 class Ticket(Base):
     plane_seat_id = Column(Integer, ForeignKey('plane_seat.id'), nullable=False)
     flight_ticket_class_id = Column(Integer, ForeignKey('flight_ticket_class.id'), nullable=False)
-    customer_id = Column(Integer, ForeignKey('customer.id'), nullable=False)
+    customer_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     bill_id = Column(Integer, ForeignKey('bill.id'), nullable=True)
     __table_args__ = (
         UniqueConstraint('plane_seat_id', 'flight_ticket_class_id'),
@@ -223,14 +227,6 @@ if __name__ == '__main__':
         # acc3 = User(id=p3.id, username="Thang", password=str(hashlib.md5("123".encode("utf-8")).hexdigest()),
         #             user_role=UserRole.CUSTOMER)
         # db.session.add_all([acc1, acc2, acc3])
-        # db.session.commit()
-        #
-        # staff = Staff(id=2)
-        # db.session.add(staff)
-        # db.session.commit()
-        #
-        # customer = Customer(id=3)
-        # db.session.add(customer)
         # db.session.commit()
         #
         # airport1 = Airport(name='Nội Bài', address='Hà Nội')
@@ -331,4 +327,4 @@ if __name__ == '__main__':
         # db.session.add_all([qd1, qd2, qd3, qd4, qd5, qd6, qd7, qd8, qd9])
         #
         # db.session.commit()
-        #
+

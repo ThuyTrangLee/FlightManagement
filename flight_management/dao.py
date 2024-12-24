@@ -51,12 +51,12 @@ def add_flight_schedule(depart, depart_date_time, flight_duration, plane, ticket
     db.session.flush()
 
     for c in ticket_class_data:
-        h = model.TicketClass(ticket_class_id=c['ticketClass'], quantity=c['quantity'], price=c['ticketPrice'],
-                            flight_id=f.id)
+        h = model.FlightTicketClass(ticket_class_id=c['ticketClass'], quantity=c['ticketPrice'], price=f.id,
+                                    flight_id=f.id)
         db.session.add(h)
 
     for s in im_airport:
-        a = model.IntermAirport(airport_id=s['airportId'], flight_id=f.id, stop_time=s['duration'], note=s['note'])
+        a = model.IntermAirport(airport_id=s['airportId'], flight_id=f.id, stop_time=100, note=s['note'])
 
         db.session.add(a)
 

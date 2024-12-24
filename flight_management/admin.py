@@ -55,11 +55,15 @@ class AiroportView(MybaseView):
 
 # Tuyến bay
 class FlightRouteVew(MybaseView):
-    column_list = ['id', 'departure', 'arrival']
+    column_list = ['id', 'departure', 'arrival', 'departure.name']
+    can_export = True
+    column_default_sort = ('id', True)
+    column_sortable_list = ['id']
+    column_searchable_list = ['id', 'departure.name']
     column_labels = {
-        'id': "ID",
-        'departure': 'Sân bay đến',
-        'arrival': 'Sân bay đi'
+    'id': "ID",
+    'departure': 'Sân bay đến',
+    'arrival': 'Sân bay đi'
     }
 
 
@@ -106,19 +110,6 @@ class SettingView(MybaseView):
         model.created_date = datetime.now()
         model.nhan_vien_quan_tri_id = current_user.id
 
-
-# Lập lịch
-class ScheduleView(MybaseView):
-    column_list = ['id', 'start_datetime', 'flight_time', 'flight_route.name', 'staff_id']
-    column_labels = {
-        'id': "ID",
-        'start_datetime': 'Ngày - giờ khởi hành',
-        'flight_time': "Thời gian bay",
-        'flight_route.name': "Máy bay",
-        'staff_id': 'Nhân viên lập'
-    }
-
-
 class CustomScheduleView(MybaseView):
     @expose('/create_flight_schedule/', methods=('GET', 'POST'))
     # create_template = 'flight_schedule.html'
@@ -132,6 +123,13 @@ class CustomScheduleView(MybaseView):
     def is_accessible(self):
         return current_user.is_authenticated and (current_user.user_role == model.UserRole.STAFF or current_user.user_role == model.UserRole.ADMIN)
 
+    column_labels = {
+        'flight_route': 'Tuyến bay',
+        'plane': 'Máy bay',
+        'start_datetime': 'Ngày - giờ khởi hành',
+        'flight_time': "Thời gian bay",
+        'staff': 'Nhân viên lập'
+    }
 
 # Thống kê
 # class StatView(BaseView):
@@ -139,15 +137,15 @@ class CustomScheduleView(MybaseView):
 #     def index(self):
 #         return self.render('admin/stats.html')
 
-
 admin = Admin(app, name='Quản lý chuyến bay')
 admin.theme.fluid = True
 admin.add_view(UserView(model.User, db.session, name="Tài khoản"))
 admin.add_view(MybaseView(model.Profile, db.session, name='Thông tin'))
 admin.add_view(FlightRouteVew(model.FlightRoute, db.session, name='Tuyến bay'))
 admin.add_view(AiroportView(model.Airport, db.session, name="Sân bay"))
-admin.add_view(CustomScheduleView(model.Flight, db.session, name='Lập lịch Chuyến bay'))
+admin.add_view(CustomScheduleView(model.Flight, db.session, name='Chuyến bay'))
 admin.add_view(MybaseView(model.TicketClass, db.session, name='Hạng vé'))
+admin.add_view(MybaseView(model.Ticket, db.session, name="Vé"))
 admin.add_view(MybaseView(model.Seat, db.session, name='Ghế'))
+admin.add_view(MybaseView(model.Bill, db.session, name="Giao Dich"))
 admin.add_view(SettingView(model.Setting, db.session, name='Quy định'))
-admin.add_view(LogoutView(name='Đăng xuất'))
