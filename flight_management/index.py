@@ -117,6 +117,12 @@ def create_flight_schedule():
             return redirect('/admin/')
         else:
             return redirect('/admin/')
+
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
 if __name__ == "__main__":
     from admin import *
     app.run(host='0.0.0.0', port=5000, debug=True)

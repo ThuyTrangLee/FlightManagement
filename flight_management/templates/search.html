@@ -2,6 +2,9 @@
 {% block title %}Tra cứu chuyến bay{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="/static/css/search.css"/>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
 
 <section class="section__container header__container">
     <h1 class="section__header">TRA CỨU CHUYẾN BAY</h1>
@@ -14,27 +17,99 @@
         <span class="option selected" id="round_trip_option">Khứ Hồi</span>
     </div>
     <form action="/flights" class="booking__form" method="get">
-        <div class="form__group">
-            <label for="from">Đi từ:</label>
-            <input type="text" id="from" name="from" placeholder="Nơi xuất phát">
-        </div>
-        <div class="form__group">
-            <label for="to">Đi đến:</label>
-            <input type="text" id="to" name="to" placeholder="Đích đến">
-        </div>
-        <div class="form__group">
-            <label for="departure_date">Ngày khởi hành:</label>
-            <input type="date" id="departure_date" name="departure_date">
-        </div>
-        <div class="form__group" id="return_date_group">
-            <label for="return_date">Ngày trở về:</label>
-            <input type="date" id="return_date" name="return_date">
-        </div>
-        <button type="submit" class="btn_search" id="search-btn">Tìm kiếm</button>
+        <div class="row">
+            <div class="row">
+                <div class="form__group col">
+                    <span><strong><i class="fas fa-plane-departure"></i> Nơi Đi</strong></span>
+                    <select class="form-control form-control-md" id="from" name="from">
+                        <option value="0">-- Chọn nơi đi --</option>
+                        {% if airport %}
+                        {% if from %}
+                        {% for p in airport %}
+                        {% if from | int == p.id %}
+                        <option selected value="{{p.id}}">{{p.address}}</option>
+                        {% else %}
+                        <option value="{{p.id}}">{{p.address}}</option>
+                        {% endif %}
+                        {% endfor %}
+                        {% else %}
+                        {% for p in airport %}
+                        <option value="{{p.id}}">{{p.address}}</option>
+                        {% endfor %}
+                        {% endif %}
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="form__group col">
+                    <span><strong><i class="fas fa-plane"></i>Nơi Đến</strong></span>
+                    <select class="form-control form-control-md" id="to" name="to">
+                        <option value="0">-- Chọn nơi đến -- </option>
+                        {% if airport %}
+                        {% if to %}
+                        {% for p in airport %}
+                        {% if to | int == p.id %}
+                        <option selected value="{{p.id}}">{{p.address}}</option>
+                        {% else %}
+                        <option value="{{p.id}}">{{p.address}}</option>
+                        {% endif %}
+                        {% endfor %}
+                        {% else %}
+                        {% for p in airport %}
+                        <option value="{{p.id}}">{{p.address}}</option>
+                        {% endfor %}
+                        {% endif %}
+                        {% endif %}
+                    </select>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="form__group col">
+                    <span><strong>Ngày đi</strong></span>
+                    {% if departure %}
+                    <input class="form-control " id="departure" name="departure" type="date" value="{{departure}}">
+                    {% else %}
+                    <input class="form-control" id="departure" name="departure" type="date">
+                    {% endif %}
+                </div>
+                <div class="form__group col" id="return_date_group">
+                    <span><strong>Ngày về</strong></span>
+                    {% if return %}
+                    <input class="form-control" id="return" name="return" type="date" value="{{return}}">
+                    {% else %}
+                    <input class="form-control " id="return" name="return" type="date">
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-center mt-3">
+                    <button class="btn btn-primary d-flex gap-2" type="submit">
+                        <i class="fas fa-search"></i>Tìm kiếm
+                    </button>
+                    <button class="btn btn-danger d-flex gap-2 ms-5" onclick="clearInput()" type="button">
+                        <i class="fas fa-trash"></i>Xoá
+                    </button>
+                    <script>
+                        function clearInput() {
+                            document.getElementById("from").value = "0";
+                            document.getElementById("to").value = "0";
+                            document.getElementById("departure").value = "";
+                            document.getElementById("return").value = "";
+                        }
+                    </script>
+                </div>
+            </div>
+            <script>
+                const today = new Date();
+                const formattedDate = today.toISOString().slice(0, 10); // "YYYY-MM-DD"
+                document.getElementById("return").min = formattedDate;
+                document.getElementById("departure").min = formattedDate;
+                document.getElementById("return").value = formattedDate;
+                document.getElementById("departure").value = formattedDate;
+            </script>
 
     </form>
-</section>
-<!--<script src="{{ url_for('static', filename='js/search-flights.js') }}"></script>-->
 <script>
     const oneWayOption = document.getElementById('one_way_option');
     const roundTripOption = document.getElementById('round_trip_option');
