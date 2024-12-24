@@ -2,10 +2,23 @@ from flight_management.decorators import role_only
 from flask import render_template, redirect, url_for, request, flash
 from flight_management import login, app
 import dao
+import json
 from flight_management.model import UserRole
 from flight_management import model
 from flask_login import LoginManager, login_required, current_user, login_user, logout_user
 
+
+@app.context_processor
+def common_attributes():
+    return {
+        'ticketclass': model.TicketClass.query.all(),
+        'plane': dao.load_plane(),
+        'airport': dao.load_airport(),
+        'flight_route': model.FlightRoute.query.all(),
+        'maxinairport': model.Setting.query.filter(model.Setting.key.__eq__(model.SettingKey.MAXIMAIRPORT)).first().value,
+        'minstop': model.Setting.query.filter(model.Setting.key.__eq__(model.SettingKey.MINSTOP)).first().value,
+        'nuticketclass': model.Setting.query.filter(model.Setting.key.__eq__(model.SettingKey.NUTICKETCLASS)).first().value,
+    }
 
 @login.user_loader
 def user_load(user_id):
@@ -35,8 +48,7 @@ def login_process():
         if user:
             login_user(user)
             return redirect(url_for('index'))
-        flash("Tài khoản hoặc mật khẩu không đúng",'danger')
-        return redirect(url_for('login_process'))
+        mse = "Tài khoản hoặc mật khẩu không đúng"
     return render_template('login.html', mse=mse)
 
 
@@ -85,6 +97,26 @@ def home():
     profile = dao.get_info_by_id(current_user.id)
     return render_template('index.html', profile=profile)
 
+# Lập lịch chuyến bay
+@app.route('/api/create_flight_schedule', methods=['POST'])
+# @login_required
+# @role_only([UserRole.STAFF])
+def create_flight_schedule():
+    if request.method.__eq__('POST'):
+        depart = request.form.get('depart')
+        plane = request.form.get('plane')
+        depart_date_time = request.form.get('depart_date_time')
+        flight_duration = request.form.get('flight_duration')
+        tickets_data = json.loads(request.form.get('tickets_data'))
+        im_airport = json.loads(request.form.get('im_airport'))
+
+        try:
+            dao.add_flight_schedule(depart, depart_date_time, flight_duration, plane, tickets_data, im_airport)
+        except Exception as ex:
+            print(ex)
+            return redirect('/admin/')
+        else:
+            return redirect('/admin/')
 if __name__ == "__main__":
     from admin import *
     app.run(host='0.0.0.0', port=5000, debug=True)
