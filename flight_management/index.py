@@ -1,8 +1,9 @@
 from flight_management.decorators import role_only
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 from flight_management import login, app
 import dao
 from flight_management.model import UserRole
+from flight_management import model
 from flask_login import LoginManager, login_required, current_user, login_user, logout_user
 
 
@@ -18,6 +19,11 @@ def index():
             return redirect("/admin")
         return redirect(url_for('home'))
     return render_template("index.html")
+@app.route('/search')
+def search():
+    return render_template("search.html")
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_process():
@@ -29,13 +35,48 @@ def login_process():
         if user:
             login_user(user)
             return redirect(url_for('index'))
-        mse = "Tài khoản hoặc mật khẩu không đúng"
+        flash("Tài khoản hoặc mật khẩu không đúng",'danger')
+        return redirect(url_for('login_process'))
     return render_template('login.html', mse=mse)
+
+
+@app.route('/register', methods=['POST', 'GET'])
+def register_user():
+    if request.method.__eq__('POST'):
+        password = request.form.get('password')
+        confirm = request.form.get('confirm')
+
+        if not password.__eq__(confirm):
+            flash('Mật khẩu không khớp!', 'danger')
+            return redirect('/register')
+
+        if dao.get_info(request.form.get('cccd'), request.form.get('phoneNumber')):
+            flash('Tên CCCD hoặc SĐT đã được đăng ký', 'danger')
+            return redirect('/register')
+
+        if dao.get_acc(request.form.get('username')):
+            flash('Tên đăng nhập đã được đăng ký', 'danger')
+            return redirect('/register')
+
+        if model.Profile.query.filter(model.Profile.email.__eq__(request.form.get('email'))).first():
+            flash('Email đã được đăng ký', 'danger')
+            return redirect('/register')
+
+        dao.add_user(name=request.form.get('name'),
+                     username=request.form.get('username'),
+                     password=password,
+                     email=request.form.get('email'),
+                     cccd=request.form.get('cccd'),
+                     phone_number=request.form.get('phoneNumber'),)
+        flash('Đăng ký thành công!', 'success')
+        return redirect('/register')
+
+    return render_template('register.html')
 
 @app.route("/log_out")
 def logout():
     logout_user()
-    return redirect(url_for("login"))
+    return redirect(url_for("login_process"))
 
 @app.route('/home')
 @login_required

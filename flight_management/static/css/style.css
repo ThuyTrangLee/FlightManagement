@@ -1,7 +1,8 @@
 * {
-  padding: 0;
-  margin: 0;
+  padding: 0 0;
+  margin: 0 0;
   box-sizing: border-box;
+  border: none
 }
 html {
   font-size: 62.5%;
@@ -9,6 +10,8 @@ html {
 body {
   font-family: "Montserrat", sans-serif;
   background-color: #f2f9fa;
+  overflow-x: hidden;
+
 }
 :root {
   --font-color: #0b0d21;
@@ -334,6 +337,7 @@ ul > li {
   margin-top: 20px;
   text-transform: uppercase;
   position: relative;
+  color: black;
 }
 .main_title::after {
   content: "";
@@ -371,7 +375,6 @@ ul > li {
   overflow: hidden;
   transition: 0.5s;
   margin: 10px;
-  /* scroll-snap-align: start; */
   position: relative;
 }
 .ite .avatar {
@@ -584,3 +587,15 @@ footer a.logo:hover {
 #top_up:hover {
   color: #fff;
 }
+
+a.btn--log.header--log-out.btn-top {
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin: 0px 50px 0px 350px;
+    color: black;
+    padding: 8px;
+    font-weight: 500;
+    background : linear-gradient(274deg, rgba(239,59,54,1) 50%,rgba(255,255,255,1) 60%);
+    border-radius: 10px;
+}
+

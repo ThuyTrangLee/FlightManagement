@@ -5,19 +5,10 @@
 {% block content %}
 
 <div class="main_form">
-    <div class="formal">
+    <div class="formal sign-up-mode">
         <div class="signin-signup">
             <form action="/login" class="sign-in-form" id="page" method="POST">
                 <h2 class="title">Đăng nhập</h2>
-                {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="alert alert-{{ category }} text-center">
-            {{ message }}
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
                 <div class="input-field">
                     <i class="fas fa-user"></i>
                     <input type="text" placeholder="Tên đăng nhập" name="username"/>
@@ -116,7 +107,8 @@
                         Hãy để chúng tôi nhận được sự tin tưởng của bạn bằng cách trở
                         thành một trong những thành viên của gia đình AniPET.
                     </p>
-                    <button class="btn1" id="sign-in-btn">Đăng nhập</button>
+                    <a href="/login"><button class="btn1" id="sign-in-btn">Đăng nhập</button></a>
+
                 </div>
                 <img src="signin.svg" alt="" class="image"/>
             </div>
@@ -127,8 +119,7 @@
                         Đăng nhập tài khoản hiện tại của bạn để cùng đến với gia đình
                         AniPET
                     </p>
-                    <a href="/register"><button class="btn1" id="sign-up-btn">Đăng ký</button></a>
-
+                    <button class="btn1" id="sign-up-btn">Đăng ký</button>
                 </div>
                 <img src="signup.svg" alt="" class="image"/>
             </div>

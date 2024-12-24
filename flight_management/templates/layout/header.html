@@ -8,14 +8,14 @@
             <ul class="menu" id="nav_menu">
                 <li><a href="/" class="item" id="ab" class="active">Trang&nbsp;chủ</a></li>
                 <li><a href="/" class="item">Khám&nbsp;phá</a></li>
-                <li><a href="" class="item">Tra&nbsp;cứu&nbsp;chuyến&nbsp;bay</a></li>
+                <li><a href="/search" class="item">Tra&nbsp;cứu&nbsp;chuyến&nbsp;bay</a></li>
                 <li><a href="" class="item">Đặt&nbsp;vé</a></li>
                 <li><a href="" class="item">Trợ&nbsp;giúp</a></li>
                 <li><a href="" class="item">Liên&nbsp;hệ</a></li>
 
             </ul>
             {% if current_user.is_authenticated %}
-            <a type="submit" class="btn--log header--log-out btn-top" href="/logout">Thoát </a>
+            <a type="submit" class="btn--log header--log-out btn-top" href="/log_out">THOÁT </a>
             {%else %}
             <div class="actions">
                 <a href="/login" class="login btn"><p class="text">Đăng nhập</p></a>

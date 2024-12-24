@@ -63,7 +63,7 @@ class User(Base, UserMixin):
     id = Column(Integer, ForeignKey(Profile.id), primary_key=True, nullable=False, unique=True)
     username = Column(String(50), unique=True)
     password = Column(String(50))
-    user_role = Column(Enum(UserRole))
+    user_role = Column(Enum(UserRole),default=UserRole.CUSTOMER)
     profile = relationship("Profile", backref="user", lazy=True)
 
     def __str__(self):

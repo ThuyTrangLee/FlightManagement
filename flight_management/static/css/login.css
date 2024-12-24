@@ -241,3 +241,4 @@ a {
 /* right-panel` sẽ phản ứng với tất cả các sự kiện con trỏ như di chuột, nhấp chuột hoặc chạm */
 .formal.sign-up-mode .left-panel {
   pointer-events: all;
+
