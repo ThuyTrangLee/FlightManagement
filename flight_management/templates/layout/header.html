@@ -2,15 +2,14 @@
     <div class="content">
         <nav class="navbar">
             <a href="/" class="logo">
-                <img src="/static/images/logonew.png" alt="Logo"/>
+                <img src="https://res.cloudinary.com/dcztds1is/image/upload/v1735039781/logonew_m3cnwf.png" alt="Logo"/>
                 <span>Nova<span class="main-color">Airways</span></span>
             </a>
             <ul class="menu" id="nav_menu">
                 <li><a href="/" class="item" id="ab" class="active">Trang&nbsp;chủ</a></li>
-                <li><a href="/" class="item">Khám&nbsp;phá</a></li>
+                <li><a href="/discover" class="item">Khám&nbsp;phá</a></li>
                 <li><a href="/search" class="item">Tra&nbsp;cứu&nbsp;chuyến&nbsp;bay</a></li>
                 <li><a href="" class="item">Đặt&nbsp;vé</a></li>
-                <li><a href="" class="item">Trợ&nbsp;giúp</a></li>
                 <li><a href="/contact" class="item">Liên&nbsp;hệ</a></li>
 
             </ul>
@@ -19,7 +18,7 @@
                 <a class="logo_logout " href="/">
                     <img src="{{ current_user.avatar }}" loading="lazy"
                          style="width: 50px; height: 50px; object-fit: cover; font-family:Montserrat" alt="logo"/>{{
-                    current_user.getName() }}.
+                    current_user.name }}.
                 </a>
                 <a href="/log_out">
                         <i class="fa fa-sign-out"

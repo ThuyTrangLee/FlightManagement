@@ -48,7 +48,8 @@ ul > li {
   font-size: 3rem;
   font-weight: 700;
   margin-right: 125px;
-}
+
+
 .btn,
 .btn2 {
   /*width: 100%;
@@ -94,7 +95,10 @@ ul > li {
 }
 /* ============ Header ========== */
 #header {
-  position: relative;
+position: fixed;
+z-index: 999;
+top:0
+
 }
 #header .content {
   position: relative;

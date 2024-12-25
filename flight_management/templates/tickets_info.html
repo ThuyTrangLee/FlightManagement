@@ -1,0 +1,156 @@
+    {% extends 'layout/base.html' %}
+
+    {% block title %}Trang chủ{% endblock %}
+
+{% block content %}
+
+<section class="ticketinformation" style="margin-top:100px;">
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col">
+                <h2 class="text-primary text-center">Chọn ghế của quý khách</h2>
+                {% for v in range(vertical) %}
+                <div class="row">
+                    {% for h in range(horizontal) %}
+
+                    <button type="button" class="col btn "
+                            data-seat-id="{{seats[v*6+h].id}}"
+                            data-seat-name="{{seats[v*6+h]}}"
+                            data-seat-ticket-class="{{seats[v*6+h].ticket_class}}"
+                            data-seat-price="{{(prices[seats[v*6+h].ticket_class.id - 1].price)}}"
+                            {% if seats[v*6+h].id in reversed_seats_id%}
+                                disabled
+                            {% endif %}
+                    >
+                        {{seats[v*6+h]}}
+                    </button>
+
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col">
+                <script>
+                    function validateForm() {
+                       var name = document.getElementById("name").value;
+                       var email = document.getElementById("email").value;
+                       var phone = document.getElementById("phone").value;
+                       var cccd = document.getElementById("cccd").value;
+                        var seat_selected = document.getElementById('seat_selected');
+
+                       if (name == "") {
+                           alert("Tên không được để trống.\n");
+                           return false;
+                       }
+
+                       var phonePattern = /^\d{10}$/;
+                       if (phone == "") {
+                           alert("Số điện thoại không được để trống.\n");
+                           return false;
+                       } else if (!phonePattern.test(phone)) {
+                           alert("Số điện thoại phải có 10 chữ số.\n");
+                           return false;
+                       }
+
+                        var cccdPattern = /^\d{12}$/;
+                       if (cccd == "") {
+                           alert("CCCD không được để trống.\n");
+                           return false;
+                       } else if (!cccdPattern.test(cccd)) {
+                           alert("Căn cước công dân phải có 12 chữ số.\n");
+                           return false;
+                       }
+
+                       var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                       if (email == "") {
+                           alert("Email không được để trống.\n");
+                           return false;
+                       } else if (!emailPattern.test(email)) {
+                           alert("Email không đúng định dạng.\n");
+                           return false;
+                       }
+
+                       if (seat_selected.value == "") {
+                           alert("Chưa chọn chỗ ngồi.\n");
+                           return false;
+                       }
+
+                       return true;
+                   }
+                </script>
+                <form ACTION="/create-payment-link" method="POST" class="border p-3 rounded m-4 mb-4 row " id="myForm" onsubmit="return validateForm()">
+                    <h3 class="text-center text-primary">Nhập thông tin hành khách </h3>
+                    <div class="form-floating mb-2 col col-md-6 col-12">
+                        <input type="text" class="form-control" id="name" name="name">
+                        <label for="name">Họ Tên</label>
+                    </div>
+
+                    <div class="form-floating mb-2 col col-md-6 col-12">
+                        <input type="text" class="form-control" id="phone" name="phone">
+                        <label for="phone">SĐT</label>
+                    </div>
+
+                    <div class="form-floating mb-2 col col-md-6 col-12">
+                        <input type="text" class="form-control" id="cccd" name="cccd">
+                        <label for="cccd">CCCD</label>
+                    </div>
+
+                    <div class="form-floating mb-2 col col-md-6 col-12">
+                        <input type="text" class="form-control" id="email" name="email">
+                        <label for="email">email</label>
+                    </div>
+
+                    <div class="form-floating mb-2 col col-md-6 col-12">
+                        <input type="text" class="form-control" id="seat_selected" name="seat_selected" readonly>
+                        <input type="text" class="form-control" id="seat_selected_id" style="display:none;" name="seat_selected_id" readonly>
+                        <input type="text" class="form-control" id="flight_id" name="flight_id" style="display:none;" value="{{flight_id}}" readonly>
+                        <label for="seat_selected">Ghế đã chọn</label>
+                    </div>
+
+                    <div class="form-floating mb-2 col col-md-6 col-12">
+                        <input type="text" class="form-control" id="seat_ticket_class" name="seat_ticket_class"
+                               readonly>
+                        <label for="seat_ticket_class">Hạng ghế</label>
+                    </div>
+
+                    <div class="form-floating mb-2 col col-md-6 col-12">
+                        <input type="text" class="form-control" id="seat_price" name="seat_price"
+                               readonly>
+                        <label for="seat_price">Giá</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger">Thanh Toán
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const seatButtons = document.querySelectorAll('.seat-btn');
+        const seat_selected = document.getElementById('seat_selected');
+        const seat_selected_id = document.getElementById('seat_selected_id');
+        const seat_ticket_class = document.getElementById('seat_ticket_class');
+        const seat_price = document.getElementById('seat_price');
+
+
+        seatButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+            const seatId = this.getAttribute('data-seat-id');
+            const seatName = this.getAttribute('data-seat-name');
+            const ticketClass = this.getAttribute('data-seat-ticket-class');
+            const seatPrice = this.getAttribute('data-seat-price');
+
+            seat_selected.value = seatName;
+            seat_ticket_class.value = ticketClass;
+            seat_price.value = seatPrice
+            seat_selected_id.value=seatId;
+            });
+        });
+
+    });
+</script>
+
+{% endblock %}

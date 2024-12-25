@@ -1,0 +1,124 @@
+<{% extends 'layout/base.html' %}
+{% block title %}Khám phá{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="/static/css/discover.css"/>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Khám phá về NovaAirways</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+            integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+            crossorigin="anonymous"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <script>
+        <!--    //  di chuyển lên đầu trang-->
+            $(window).scroll(function(){
+              $('#top_up').off('click');
+              $('#top_up').click(function(){
+        <!--        //đưa lên đầu trang với thời gian là một giây-->
+                $('html, body').animate({scrollTop: 0}, 1000);
+                  return false;
+              });
+        <!--      // Hiển thị nút Go to top khi người dùng cuộn trang xuống-->
+              if($(this).scrollTop() > 800) {
+        <!--        //ẩn đi go to top-->
+                $('#top_up').fadeIn();
+              }else {
+                $('#top_up').fadeOut(); //hiện ra
+              }
+            });
+    </script>
+</head>
+<body>
+<div class="main_header">
+    <img src="https://res.cloudinary.com/dcztds1is/image/upload/v1735096675/dis_olmmpl.jpg" alt=""/>
+    <div class="line">
+        <svg
+                preserveAspectRatio="none"
+                x="0px"
+                y="0px"
+                width="100%"
+                height="85px"
+                viewBox="0 0 1920 107.7"
+                xml:space="preserve"
+                class="w-100 h-100 svg"
+                style="margin-bottom: -8px"
+        >
+          <style type="text/css">
+            .wave-9-bottom-0 {
+              fill: #f2f9fa;
+            }
+            .wave-9-bottom-1 {
+              fill: #f2f9fa;
+            }
+          </style>
+            <path
+                    class="wave-9-bottom-0 fill-white"
+                    d="M0,107.7V69.8c0,0,451-54.7,960-5.4S1920,0,1920,0v107.7H0z"
+            ></path>
+            <path
+                    class="wave-9-bottom-1 fill-white"
+                    opacity="0.3"
+                    d="M0,107.7v-81c0,0,316.2-8.9,646.1,54.5s794.7-114.1,1273.9-38v64.5H0z"
+            ></path>
+        </svg>
+    </div>
+    <div class="animate__animated animate__pulse gioithieu">Khám phá NovaAirways</div>
+</div>
+
+<div class="text1">
+    <p>
+        Hàng không NovaAirways là một hãng hàng không full flight bay đến các đường bay domestic & international. Khối
+        lượng hành lý mang theo yêu cầu bởi hãng là 12 kg và kích thước tối đa là (dài x rộng x cao) 36 cm x 23 cm x 56
+        cm (L x W x H). Lệ phí vé không bao gồm khối lượng hành lý ký gửi không tính phí. Khách hàng có thể làm thủ tục
+        tại sân bay 180 phút trước giờ bay theo kế hoạch. Check-in online khả dụng với các chuyến bay của hãng trên
+        website chính thức của Hàng không Việt Nam. Có thể làm bước này 1 ngày trước giờ bay.
+    </p>
+</div>
+
+<div id="maincont">
+    <div class="main_intro">
+        <div class="text2">
+
+            <h2>Chúng tôi<br/>giúp mọi người có thể</h2>
+            <h2> du lịch</h2>
+            <p>
+                Chúng tôi tin rằng mọi người đều nên tự do trải nghiệm thế giới. Đối với chúng tôi, không có tự do nào
+                lớn hơn là quyền tự chọn nơi bạn muốn đến và cách bạn muốn đi đến đó.
+                Đó là lý do tại sao chúng tôi đang phá bỏ các rào cản cho du lịch giá rẻ, làm cho thế giới mở cửa và dễ
+                dàng tiếp cận cho tất cả mọi người.
+            </p>
+        </div>
+        <div class="img-text2">
+            <img src="https://res.cloudinary.com/dcztds1is/image/upload/v1735096677/trip_xcjehf.jpg" alt=""/>
+        </div>
+    </div>
+
+    <div class="main_intro1">
+        <div class="img-text3">
+            <img src="https://res.cloudinary.com/dcztds1is/image/upload/v1735096677/cost_dtn8sk.jpg" alt=""/>
+        </div>
+        <div class="text3">
+
+            <h2>Chúng tôi tận dụng hệ thống,<br/>bạn bay với giá thấp hơn</h2>
+            <p>
+                Chúng tôi tự hào về sự độc lập và quyết tâm thách thức hệ thống cứng nhắc của các hãng hàng không và nhà
+                vận chuyển vì lợi ích tốt nhất của khách hàng. Như những người đổi mới công nghệ, chúng tôi đang tạo ra
+                các giải pháp để làm cho việc du lịch giá rẻ trở nên khả thi cho mọi người. Như những con người, chúng
+                tôi đang thay đổi cách chúng tôi du lịch để tạo ra một xã hội mở và khoan dung hơn.
+
+            </p>
+        </div>
+    </div>
+</div>
+<a href="#" title="Đi lên đầu trang" id="top_up"
+   style="text-align: center; font-size: 80px; display: none; margin-right: 10px;">&#710</a>
+</body>
+{% endblock %}

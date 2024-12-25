@@ -3,7 +3,7 @@
 {% block title %} Đăng nhập {% endblock %}
 
 {% block content %}
-
+<link rel="stylesheet" href="/static/css/login.css"/>
 <div class="main_form">
     <div class="formal sign-up-mode">
         <div class="signin-signup">
@@ -17,6 +17,7 @@
                     <i class="fas fa-lock"></i>
                     <input type="password" placeholder="Mật khẩu" name="password"/>
                 </div>
+
                 <input type="submit" value="Đăng nhập" class="btn1"/><a href=""></a>
                 <p class="social-text">Hoặc kết nối với</p>
                 <div class="social">
@@ -38,17 +39,17 @@
                 </p>
             </form>
 
-<!--     From đăng ký-->
+            <!--     From đăng ký-->
             <form action="/register" class="sign-up-form" method="POST" id="page">
-                        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="alert alert-{{ category }} text-center">
-            {{ message }}
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} text-center">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
                 <h2 class="title">Đăng ký</h2>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
@@ -64,11 +65,15 @@
                 </div>
                 <div class="input-field">
                     <i class="fas fa-phone"></i>
-                    <input type="text" placeholder="Số điện thoại" id="phoneNumber" name="phoneNumber" required/>
+                    <input type="text" placeholder="Số điện thoại" id="phoneNumber" name="phone" required/>
                 </div>
                 <div class="input-field">
                     <i class="fas fa-envelope"></i>
                     <input type="email" placeholder="Email" id="email" name="email" required/>
+                </div>
+                <div class="input-field">
+                    <label for="avatar">Ảnh đại diện</label>
+                    <input class="form-control" id="avatar" name="avatar" type="file">
                 </div>
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
@@ -107,7 +112,9 @@
                         Hãy để chúng tôi nhận được sự tin tưởng của bạn bằng cách trở
                         thành một trong những thành viên của gia đình AniPET.
                     </p>
-                    <a href="/login"><button class="btn1" id="sign-in-btn">Đăng nhập</button></a>
+                    <a href="/login">
+                        <button class="btn1" id="sign-in-btn">Đăng nhập</button>
+                    </a>
 
                 </div>
                 <img src="signin.svg" alt="" class="image"/>

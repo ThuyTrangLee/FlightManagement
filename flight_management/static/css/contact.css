@@ -1,0 +1,34 @@
+.booking__container {
+    border-top: 2px solid #2A71A2;
+    border-radius: 16px 0;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+}
+.section__container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 32px;
+    margin-top: 50px;
+}
+.header__container .section__header{
+    text-align: revert;
+    color: #00558F;
+}
+strong {
+    font-weight: bolder;
+    color: #00558F;
+}
+   .txtp01_body-content + .txtp01_body-title {
+    padding-top: 32px;
+    margin-top: 32px;
+    border-top: 1px solid #D0D5DD;
+}
+
+.h2, h2 {
+     font-size: 2rem;
+     color:#00558F;
+}
+
+
+
+

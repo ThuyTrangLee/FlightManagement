@@ -2,10 +2,11 @@ from flight_management import db
 from flask_login import current_user
 import hashlib
 from flight_management import model
+from sqlalchemy import func
+import cloudinary.uploader
 
-def get_info_by_id(user_id):
-    return model.Profile.query.filter(model.Profile.id == int(user_id)).first()
-    # return Profile.query.get(user_id)
+
+
 def load_user(user_id):
     return model.User.query.get(user_id)
 
@@ -15,36 +16,25 @@ def auth_user(username, password):
     return model.User.query.filter(model.User.username.__eq__(username.strip()),
                              model.User.password.__eq__(password)).first()
 
-def get_info(identity=None, phone_number=None):
-
-    return model.Profile.query.filter((model.Profile.cccd == identity) | (model.Profile.phone == phone_number)).first()
-
-def add_user_info(name, phone_number, identity, email, commit=True):
-    info = get_info(identity, phone_number)
-    if info is None:
-        info = model.Profile(name=name, phone=phone_number, email=email, cccd=identity)
-        db.session.add(info)
-        if commit:
-            db.session.commit()
-        return info
-    else:
-        return info
-
-def get_acc(username):
-    return db.session.query(model.User.username).filter(model.User.username.__eq__(username)).first()
-
-def add_user(name, username, password, email, cccd, phone_number):
+def add_user(name,phone,cccd,email,username,password,avatar=None):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
-    user_info = add_user_info(name, phone_number, cccd, email)
-    u = model.User(id=user_info.id,username=username, password=password)
-    db.session.add(u)
+    user = model.User(name=name.strip(),
+                       username=username.strip(),
+                       password=password,
+                      cccd=cccd,
+                      email=email,
+                      phone=phone)
+    if avatar:
+        res = cloudinary.uploader.upload(avatar)
+        user.avatar = res.get('secure_url')
+    db.session.add(user)
     db.session.commit()
 
-def auth_user(username, password):
-    password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
-    return model.User.query.filter(model.User.username.__eq__(username.strip()),
-                                   model.User.password.__eq__(password)).first()
+
+
+
 def add_flight_schedule(depart, depart_date_time, flight_duration, plane, ticket_class_data, im_airport):
+
     f = model.Flight( start_datetime=depart_date_time, flight_time=flight_duration,flight_route_id=depart, plane_id=plane,  staff_id=current_user.id)
 
     db.session.add(f)
@@ -62,7 +52,23 @@ def add_flight_schedule(depart, depart_date_time, flight_duration, plane, ticket
 
     db.session.commit()
 
-def load_plane():
-    return model.Plane.query.all()
-def load_airport():
-    return model.Airport.query.all()
+def get_list_flight_in_search(fromm=None, to=None, departure=None):
+    query = model.Flight.query
+
+    if not fromm and not to and not departure:
+        return query.limit(6).all()
+
+    if fromm and int(fromm) > 0:
+        query = query.filter(model.Flight.flight_route.has(
+            model.FlightRoute.departure_id == int(fromm)
+        ))
+
+    if to and int(to) > 0:
+        query = query.filter(model.Flight.flight_route.has(
+            model.FlightRoute.arrival_id == int(to)
+        ))
+
+    if departure:
+        query = query.filter(func.date(model.Flight.start_datetime) == departure)
+
+    return query.order_by(model.Flight.start_datetime).all()

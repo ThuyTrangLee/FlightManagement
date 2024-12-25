@@ -1,0 +1,327 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+
+}
+html {
+  font-size: 62.5%;
+}
+body {
+  font-family: "Montserrat", sans-serif;
+  background-color: #f2f9fa;
+}
+:root {
+  --font-color: #0b0d21;
+}
+/*============ Style img ============*/
+.main_header {
+  position: relative;
+}
+.main_header img {
+  width: 100%;
+  height: 600px;
+}
+
+/*============ Style chữ trên img ============*/
+.main_header .gioithieu {
+  position: absolute;
+  top: 250px;
+  left: 0;
+  color: #ffff;
+  font-size: 75px;
+  width: 100%;
+  text-align: center;
+  text-transform: capitalize;
+  text-shadow: 0px 10px rgba(0, 0, 0, 0.3);
+  transition: 0.3s ease-in-out inherit;
+}
+.main_header .home {
+  position: absolute;
+  top: 340px;
+  left: 0;
+  color: #ffff;
+  font-size: 27px;
+  font-weight: 500;
+  width: 100%;
+  text-align: center;
+  text-shadow: 0px 10px rgba(0, 0, 0, 0.1);
+}
+/* ============ Giới thiệu============  */
+.text1 {
+  color: #393d72;
+  text-align: center;
+  font-size: 18px;
+  margin: 20px 100px 20px 100px;
+  font-weight: 400;
+  line-height: 32.2px;
+}
+.text1 p {
+  text-align: justify;
+}
+.line {
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+}
+/* ============ Nội dung chính ============ */
+.main_intro,
+.main_intro1 {
+  margin-top: 45px;
+  color: #393d72;
+  display: flex;
+}
+
+/* 40% - 60% */
+.text2 {
+  width: 40%;
+  margin-left: 70px;
+}
+.text2 > h5 {
+  color: #0072ff;
+  text-align: left;
+  font-size: 16px;
+  line-height: 60px;
+}
+.text2 > h2 {
+  text-shadow: 4px 2px 0px rgba(138, 218, 253, 0.3);
+  color: #393d72;
+  font-size: 43px;
+  line-height: 1.2em;
+  text-transform: capitalize;
+  animation: doimau 5s infinite;
+}
+
+@keyframes doimau {
+  from {
+    color: #575c9b;
+  }
+  to {
+    color: #393d72;
+  }
+}
+.text2 > p {
+  color: #393d72;
+  padding-top: 32px;
+  display: block;
+  font-size: 17px;
+  margin-bottom: 1rem;
+  line-height: 27px;
+  text-align: justify;
+}
+.img-text2 {
+  display: flex;
+  width: 60%;
+  justify-content: right;
+}
+.img-text2 img {
+  margin-top: 50px;
+  margin-right: 70px;
+  width: 550px;
+}
+
+
+.text3 {
+  position: relative;
+  display: block;
+  padding-top: 50px;
+  width: 40%;
+  margin-right: 70px;
+}
+.text3 > h5 {
+  color: #0072ff;
+  text-align: left;
+  font-size: 16px;
+  line-height: 60px;
+}
+.text3 > h2 {
+  text-shadow: 4px 2px 0px rgba(138, 218, 253, 0.3);
+  color: #393d72;
+  font-size: 43px;
+  line-height: 1.2em;
+  text-transform: capitalize;
+  animation: doimau 9s infinite;
+}
+.text3 > p {
+  padding-top: 32px;
+  display: block;
+  font-size: 17px;
+  margin-bottom: 1rem;
+  line-height: 27px;
+  text-align: justify;
+}
+.text3 >p >span:hover{
+  text-decoration: underline;
+}
+.img-text3 {
+  margin-top: 50px;
+  display: flex;
+  width: 60%;
+  justify-content: left;
+}
+.img-text3 img {
+  margin-top: 70px;
+  margin-left: 70px;
+  width: 570px;
+  height: 580px;
+}
+#maincont {
+  width: 95%;
+  margin: 0 auto;
+}
+
+
+/* Reponsive */
+
+@media (max-width: 1024px) {
+  .main_header .gioithieu {
+    font-size: 55px;
+  }
+  .main_header .home {
+    top: 320px;
+    font-size: 22px;
+  }
+  .text1 > p {
+    font-size: 16.5px;
+    /* color: #0b0d21; */
+  }
+  .img-text2 img {
+    margin-right: 70px;
+    margin-top: 75%;
+    width: 325px;
+    height: 520px;
+  }
+  .img-text3 img {
+    margin-left: 70px;
+    margin-top: 52.5%;
+    width: 355px;
+    height: 580px;
+  }
+}
+
+@media (max-width: 900px) {
+  .main_header .gioithieu {
+    font-size: 58px;
+  }
+  .main_header .home {
+    top: 330px;
+    font-size: 23px;
+  }
+  .text1 > p,
+  .text2 > p,
+  .text3 > p {
+    font-size: 15.5px;
+  }
+  .text2 > h2,
+  .text3 > h2 {
+    font-size: 40px;
+  }
+  .img-text2 img {
+    margin-right: 50px;
+    margin-left: 50px;
+    margin-top: 65%;
+    width: 420px;
+    height: 480px;
+  }
+  .img-text3 img {
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 48%;
+    width: 425px;
+    height: 480px;
+  }
+}
+
+@media (max-width: 840px) {
+  .main_header .gioithieu {
+    font-size: 58px;
+  }
+  .main_header .home {
+    top: 330px;
+    font-size: 23px;
+  }
+  .text1 > p,
+  .text2 > p,
+  .text3 > p {
+    font-size: 15.5px;
+  }
+  .text2 > h2,
+  .text3 > h2 {
+    font-size: 40px;
+  }
+  .img-text2 img,
+  .img-text3 img {
+    display: none;
+  }
+  .main_intro,
+  .main_intro1,
+  .ulist {
+    display: block;
+  }
+  .main_intro .text2 {
+    width: 100%;
+    padding: 0px 50px;
+    margin: 0;
+  }
+  .main_intro1 .text3 {
+    width: 100%;
+    padding: 0px 50px;
+    margin: 0;
+  }
+  .ulist {
+    padding: 0px 50px 0px 70px;
+    margin-left: 20px;
+    width: 100%;
+  }
+  .ulist .top {
+    text-align: center;
+    width: 100%;
+    margin-left: 20px;
+  }
+  .ulist .bottom {
+    text-align: center;
+    width: 100%;
+    margin-left: 10px;
+  }
+}
+
+@media (max-width: 840px) {
+  .main_header .gioithieu {
+    font-size: 35px;
+  }
+  .main_header .home {
+    top: 330px;
+    font-size: 20px;
+  }
+  .text1 > p,
+  .text2 > p,
+  .text3 > p {
+    font-size: 14px;
+  }
+  .text2 > h2,
+  .text3 > h2 {
+    font-size: 30px;
+  }
+  .ulist {
+    margin: 0;
+    padding: 0px 50px 0px 50px;
+  }
+  .ulist > symbol {
+    width: 20px;
+    height: 20px;
+  }
+  .ulist > ul h3 {
+    font-size: 14px;
+  }
+  .ulist > ul p {
+    font-size: 9.5px;
+  }
+}
+@media (max-width: 840px) {
+  .text1 > p {
+    margin: 0;
+  }
+}
