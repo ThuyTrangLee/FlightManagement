@@ -6,35 +6,37 @@ from sqlalchemy import func
 import cloudinary.uploader
 
 
-
 def load_user(user_id):
     return model.User.query.get(user_id)
 
-def auth_user(username, password):
-    password =str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
-    return model.User.query.filter(model.User.username.__eq__(username.strip()),
-                             model.User.password.__eq__(password)).first()
 
-def add_user(name,phone,cccd,email,username,password,avatar=None):
+# xác thực mật khẩu
+def auth_user(username, password):
+    password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+    return model.User.query.filter(model.User.username.__eq__(username.strip()),
+                                   model.User.password.__eq__(password)).first()
+
+
+# them user
+def add_user(name, phone, cccd, email, username, password, avatar=None):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
     user = model.User(name=name.strip(),
-                       username=username.strip(),
-                       password=password,
+                      username=username.strip(),
+                      password=password,
                       cccd=cccd,
                       email=email,
                       phone=phone)
     if avatar:
         res = cloudinary.uploader.upload(avatar)
         user.avatar = res.get('secure_url')
+
     db.session.add(user)
     db.session.commit()
 
 
-
-
 def add_flight_schedule(depart, depart_date_time, flight_duration, plane, ticket_class_data, im_airport):
-
-    f = model.Flight( start_datetime=depart_date_time, flight_time=flight_duration,flight_route_id=depart, plane_id=plane,  staff_id=current_user.id)
+    f = model.Flight(start_datetime=depart_date_time, flight_time=flight_duration, flight_route_id=depart,
+                     plane_id=plane, staff_id=current_user.id)
 
     db.session.add(f)
     db.session.flush()
@@ -51,12 +53,14 @@ def add_flight_schedule(depart, depart_date_time, flight_duration, plane, ticket
 
     db.session.commit()
 
+
 def get_list_flight_in_search(fromm=None, to=None, departure=None):
     query = model.Flight.query
-
+    # mac dinh truy cap vao lay 6 chuyen
     if not fromm and not to and not departure:
         return query.order_by(model.Flight.start_datetime).limit(6).all()
 
+    # neu co from thi loc theo from
     if fromm and int(fromm) > 0:
         query = query.filter(model.Flight.flight_route.has(
             model.FlightRoute.departure_id == int(fromm)
@@ -71,6 +75,7 @@ def get_list_flight_in_search(fromm=None, to=None, departure=None):
         query = query.filter(func.date(model.Flight.start_datetime) == departure)
 
     return query.order_by(model.Flight.start_datetime).all()
+
 
 def get_list_flight_in_datve(fromm=None, to=None, departure=None):
     query = model.Flight.query
@@ -93,15 +98,18 @@ def get_list_flight_in_datve(fromm=None, to=None, departure=None):
 
     return query.order_by(model.Flight.start_datetime).all()
 
+
 def add_flight(staff_id, flight_route_id, plane_id, start_datetime, flight_time):
-    flight = model.Flight(staff_id=staff_id,flight_route_id=flight_route_id, start_datetime=start_datetime,
-                           flight_time=flight_time, plane_id=plane_id)
+    flight = model.Flight(staff_id=staff_id, flight_route_id=flight_route_id, start_datetime=start_datetime,
+                          flight_time=flight_time, plane_id=plane_id)
     db.session.add(flight)
     db.session.commit()
 
     return flight.id
 
+
 def add_airport_in(flight_route_id, airport_id, stop_time, note):
-    airport_in = model.IntermAirport(flight_route_id=flight_route_id, airport_id=airport_id, stop_time=stop_time, note=note)
+    airport_in = model.IntermAirport(flight_route_id=flight_route_id, airport_id=airport_id, stop_time=stop_time,
+                                     note=note)
     db.session.add(airport_in)
     db.session.commit()

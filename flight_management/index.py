@@ -11,7 +11,7 @@ from flask_login import LoginManager, login_required, current_user, login_user, 
 import time
 from flask_mail import Mail, Message
 
-
+# mac dinh khi render template
 @app.context_processor
 def common_attributes():
     return {
@@ -44,21 +44,24 @@ def index():
 
 @app.route('/search')
 def search():
-    if current_user.is_authenticated:
+    if current_user.is_authenticated:# kiem tra neu la admin va staff thi ve admin
         if current_user.user_role == UserRole.ADMIN or current_user.user_role == UserRole.STAFF:
             return redirect("/admin")
+
     fromm = request.args.get('from', None)
     to = request.args.get('to', None)
     departure = request.args.get('departure', None)
     returnn = request.args.get('return', None)
-
+    # ds mot chieu
     list_flight_1 = dao.get_list_flight_in_search(fromm, to, departure)
+    # chieu nguoc lai
     list_flight_2 = []
 
     mode = 0
     if returnn:
-        mode = 1
+        mode = 1# khu hoi
         list_flight_2 = dao.get_list_flight_in_search(to, fromm, returnn)
+    # list in ra. Dung set khong trung
     list_flight = list(set(list_flight_1 + list_flight_2))
     return render_template("search.html", list_flight=list_flight, mode=mode)
 
@@ -115,11 +118,11 @@ def admin_login():
 
 @app.route('/register', methods=['POST', 'GET'])
 def register_user():
-    if current_user.is_authenticated:
+    if current_user.is_authenticated:# kiem tra dang nhap
         if current_user.user_role == UserRole.ADMIN or current_user.user_role == UserRole.STAFF:
             return redirect("/admin")
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        if current_user.user_role == UserRole.CUSTOMER:
+            return redirect("/")
 
     if request.method.__eq__('POST'):
         name = request.form.get('name')
@@ -130,6 +133,7 @@ def register_user():
         password = request.form.get('password')
         confirm = request.form.get('confirm')
 
+        # kiểm tra tồn tại
         if model.User.query.filter_by(cccd=cccd).first():
             flash('CCCD đã được đăng ký', 'danger')
             return redirect('/register')
@@ -146,8 +150,8 @@ def register_user():
             flash('Mật khẩu không khớp!', 'danger')
             return redirect('/register')
 
-        data = request.form.copy()
-        del data['confirm']
+        # data = request.form.copy()
+        # del data['confirm']
         avatar = request.files.get('avatar')
         dao.add_user(avatar=avatar,
                      name=name,
@@ -331,6 +335,7 @@ def success_payment():
 
 @app.route("/create-payment-link", methods=["POST"])
 def create_payment_link():
+
     try:
         session['cccd'] = request.form.get('cccd')
         session['name'] = request.form.get('name')
@@ -344,6 +349,7 @@ def create_payment_link():
 
         orderCode = int(time.time())
         session['orderCode'] = orderCode
+
         item = ItemData(name=f"{flight.flight_route}", quantity=1,
                         price=int(float(session['seat_price'])))
         payment_data = PaymentData(

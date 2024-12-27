@@ -30,19 +30,21 @@
                     <select class="form-control form-control-md" id="from" name="from">
                         <option value="0">-- Chọn nơi đi --</option>
                         {% if airport %}
-                        {% if from %}
-                        {% for p in airport %}
-                        {% if from | int == p.id %}
-                        <option selected value="{{p.id}}">{{p.address}}</option>
-                        {% else %}
-                        <option value="{{p.id}}">{{p.address}}</option>
-                        {% endif %}
-                        {% endfor %}
-                        {% else %}
-                        {% for p in airport %}
-                        <option value="{{p.id}}">{{p.address}}</option>
-                        {% endfor %}
-                        {% endif %}
+                            {% if request.args.get('from') %}
+                                {% for p in airport %}
+                                    {% if request.args.get('from') | int == p.id %}
+                                        <option selected value="{{p.id}}">{{p.address}}</option>
+                                    {% else %}
+                                        <option value="{{p.id}}">{{p.address}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                {% for p in airport %}
+        <!--                        airport: danh sach san bay-->
+        <!--                        p: san bay-->
+                                    <option value="{{p.id}}">{{p.address}}</option>
+                                {% endfor %}
+                            {% endif %}
                         {% endif %}
                     </select>
                 </div>
@@ -51,9 +53,9 @@
                     <select class="form-control form-control-md" id="to" name="to">
                         <option value="0">-- Chọn nơi đến --</option>
                         {% if airport %}
-                        {% if to %}
+                        {% if  request.args.get('to') %}
                         {% for p in airport %}
-                        {% if to | int == p.id %}
+                        {% if  request.args.get('to') | int == p.id %}
                         <option selected value="{{p.id}}">{{p.address}}</option>
                         {% else %}
                         <option value="{{p.id}}">{{p.address}}</option>

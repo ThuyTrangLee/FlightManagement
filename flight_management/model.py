@@ -125,7 +125,7 @@ class Seat(Base):
     def __str__(self):
         return f"{self.vertical.value}{self.horizontal}"
 
-
+# Ghe da dat
 class ReservedSeat(Base):
     __tablename__ = 'reserved_seat'
 
@@ -185,6 +185,7 @@ class Flight(Base):
         if gio == 0:
             return f"{phut} Phút"
         return f"{gio} Giờ {phut} Phút"
+
 # danh sách đơn giá vé
 class TicketPrice(Base):
     __tablename__ ='ticket_price'

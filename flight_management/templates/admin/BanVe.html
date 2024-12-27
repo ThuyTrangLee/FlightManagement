@@ -128,7 +128,18 @@
                         <input type="text" class="form-control" id="seat_price_string" name="seat_price_string"
                                style="font-size: 16px;" readonly>
                     </div>
-
+                    <div class="mb-2 col col-md-6 col-12">
+                        <div class="form-check" style="margin:10px 20px;">
+                            <div class="col">
+                                <label class="form-check-label ">
+                                    <input type="radio" class="form-check-input" checked value="1" name="mode">Tiền mặt
+                                </label>
+                            </div>
+                            <div class="col">
+                                <input type="radio" class="form-check-input" value="2" name="mode">Chuyển khoản
+                            </div>
+                        </div>
+                    </div>
                     <button type="submit" class="btn btn-danger" {% if not is_con_han %}disabled{% endif %}>Thanh Toán
                     </button>
                 </form>

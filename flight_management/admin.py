@@ -26,13 +26,13 @@ class MybaseView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == model.UserRole.ADMIN
 
-
+# dang xuat
 class LogoutView(BaseView):
     @expose('/')
     def index(self):
         logout_user()
         return redirect('/admin')
-
+    # gioi han quyen truy cap
     def is_accessible(self):
         return current_user.is_authenticated and (
                     current_user.user_role == model.UserRole.ADMIN or current_user.user_role == model.UserRole.STAFF)
@@ -52,8 +52,7 @@ class AiroportView(MybaseView):
         'address': 'Tỉnh'
     }
 
-
-# # Tuyến bay
+# Tuyến bay
 class FlightRouteVew(MybaseView):
     can_export = True
     column_default_sort = ('id', True)
@@ -143,6 +142,7 @@ class TicketClassView(MybaseView):
 
 # chuyển thành tên để hiển thị
 def format_enum_value(view, context, model, name):
+    # lay gia tri
     enum_value = getattr(model, name)
     if isinstance(enum_value, SettingKey):
         return enum_value.value  # Đổi thành enum_value.name nếu muốn hiển thị tên
@@ -158,19 +158,12 @@ class SettingView(MybaseView):
     column_formatters = {
         'key': format_enum_value
     }
-    # form_excluded_columns = ['created_date', 'nhan_vien_quan_tri']
     column_labels = {
         'key': 'Tên Quy Định',
         'value': 'Giá Trị',
         'active': 'Hoạt Động',
         'created_date': 'Ngày Thay Đổi Gần Nhất',
     }
-
-    def on_model_change(self, form, model, is_created):
-        model.created_date = datetime.now()
-        model.nhan_vien_quan_tri_id = current_user.id
-
-
 class LapLichChuyenBayView(BaseView):
         @expose('/', methods=['GET', 'POST'])
         def index(self):
@@ -231,21 +224,23 @@ class BanVeView(BaseView):
         id = request.args.get('id', None)
         if not id:
             return redirect('/admin/tracuuview')
-
+        # chuyen bay
         flight = model.Flight.query.filter_by(id=id).first()
-        seats = model.Seat.query.filter_by(plane_id=flight.plane_id).order_by('horizontal').all()
+        seats = model.Seat.query.filter_by(plane_id=flight.plane_id).order_by('horizontal').all() #sap xep theo truc ngang
         vertical = 6
         horizontal = 6
         prices = model.TicketPrice.query.filter_by(flight_id=id).all()
         reversed_seats = model.ReservedSeat.query.filter_by(flight_id=id).all()
         reversed_seats_id = []
         for i in reversed_seats:
-            reversed_seats_id.append(i.seat_id)
+            reversed_seats_id.append(i.seat_id) #them id cho da dat
 
+        # kiem tra thoi han dat ve
         is_con_han = True
+
         ngay_het_han = int((flight.start_datetime - timedelta(minutes=model.Setting.query.all()[7].value)).timestamp())
         if int(datetime.now().timestamp()) > ngay_het_han:
-            is_con_han = False
+            is_con_han = False #het han dat
 
         return self.render('admin/BanVe.html',
                            flight=flight,
@@ -272,6 +267,9 @@ class BanVeView(BaseView):
 
             orderCode = int(time.time())
             session['orderCode'] = orderCode
+            if int(request.form.get('mode')) == 1:
+                return redirect(url_for('banveview.success', status='PAID', orderCode=orderCode))
+
             item = ItemData(name=f"{flight.flight_route}", quantity=1,
                             price=int(float(session['seat_price'])))
             payment_data = PaymentData(
@@ -337,7 +335,7 @@ class TraCuuView(BaseView):
                 list_flight= list(set(list_flight+list_flight_2))
 
         return self.render('admin/TraCuu.html', list_flight=list_flight)
-
+    # kiem quyen. Da dang nhap chua va vai tro la staff
     def is_accessible(self):
         return current_user.is_authenticated and current_user.user_role == model.UserRole.STAFF
 class LichSuBanVeView(BaseView):
@@ -357,12 +355,12 @@ class ThongKeView(BaseView):
         month = request.args.get('month')
         year = request.args.get('year')
         if month:
-            max = 0
-            list_flight_route = model.FlightRoute.query.order_by('id').all()
-            total_price_all_flight_routes = 0
+            max = 0  #sl chuyen bay max
+            list_flight_route = model.FlightRoute.query.order_by('id').all() #lay all tuyen bay theo id
+            total_price_all_flight_routes = 0 #tong doanh thu
             for flight_route in list_flight_route:
                 total_price_flight_route = 0
-                count_flight = 0
+                count_flight = 0 #so tuyen bay
                 flag = False
                 for flight in flight_route.flights:
                     for ticket in flight.tickets:
@@ -374,8 +372,8 @@ class ThongKeView(BaseView):
                 if count_flight > max:
                     max = count_flight
                 total_price_all_flight_routes += total_price_flight_route
-                data[flight_route.getAddress()] = [total_price_flight_route, count_flight]
-
+                data[flight_route.getAddress()] = [total_price_flight_route, count_flight] #luu dl thong ke
+            # tinh theo % de thong ke bieu do tron
             for flight_route_name, values in data.items():
                 total_price_flight_route = values[0]
                 if total_price_all_flight_routes > 0:
@@ -411,11 +409,10 @@ admin.add_view(TicketView(model.Ticket, db.session, name="Vé"))
 admin.add_view(TicketPriceView(model.TicketPrice, db.session, name="Danh sách đơn giá"))
 admin.add_view(TicketClassView(model.TicketClass, db.session, name="Hạng vé"))
 admin.add_view(SettingView(model.Setting, db.session, name="Quy định"))
-
+# Trang của Staff
 admin.add_view(LapLichChuyenBayView(name="Lập lịch chuyến bay"))
 admin.add_view(BanVeView(name="Bán Vé"))
 admin.add_view(TraCuuView(name="Tra Cứu"))
 admin.add_view(ThongKeView(name="Thống kê"))
 admin.add_view(LichSuBanVeView(name="Lịch sử bán vé"))
-
 admin.add_view(LogoutView(name="Đăng xuất"))

@@ -12,10 +12,17 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:%s@localhost/fligh
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 # Configuration
+# cloudinary.config(
+#     cloud_name = "dcztds1is",
+#     api_key = "893276997459282",
+#     api_secret = "ewju58qrKhZ1zi7k7rTVvQ2LpuE", # Click 'View API Keys' above to copy your API secret
+#     secure=True
+# )
+
 cloudinary.config(
-    cloud_name = "dcztds1is",
-    api_key = "893276997459282",
-    api_secret = "ewju58qrKhZ1zi7k7rTVvQ2LpuE", # Click 'View API Keys' above to copy your API secret
+    cloud_name="demfjaknk",
+    api_key="675115286763916",
+    api_secret="YmFNxxs4iZTU5pv-qrBFpldsgMw",  # Click 'View API Keys' above to copy your API secret
     secure=True
 )
 db = SQLAlchemy(app)
