@@ -22,3 +22,4 @@ sign_in_btn2.addEventListener("click", () => {
   formal.classList.remove("sign-up-mode2");
 });
 
+

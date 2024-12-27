@@ -1,0 +1,135 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<div class="min-vh-100 w-auto d-flex flex-column">
+    {% if current_user.user_role.name.__eq__('STAFF')%}
+    <div><h1 class="display-5 fw-bold text-primary text-center mt-5">Lập lịch chuyến bay</h1></div>
+    <div class="container bg-body-tertiary p-3">
+        <form action="/admin/laplichchuyenbayview" method="post" id="myForm">
+            <div class="form-floating mb-3 mt-3">
+                <label for="flight_route_id">Tuyến bay</label>
+                <select class="form-control form-control-md" id="flight_route_id" name="flight_route_id">
+                    {% for p in list_flight_route %}
+                    <option value="{{p.id}}">{{p}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-floating mb-3 mt-3">
+                <label for="plane_id">Máy bay</label>
+                <select class="form-control form-control-md" id="plane_id" name="plane_id" required>
+                    <option value="">Chọn máy bay</option>
+                    {% for p in list_plane %}
+                    <option value="{{p.id}}" data-info1="{{p.getSoLuongGheHang1()}}" data-info2="{{p.getSoLuongGheHang2()}}">{{p}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-floating mb-3 mt-3">
+                <label for="flight_time">Số lượng ghế hạng 1:</label>
+                <input class="form-control" id="slgh1"
+                       name="flight_time"
+                       required
+                       type="number" value="" readonly/>
+            </div>
+            <div class="form-floating mb-3 mt-3">
+                <label for="flight_time">Số lượng ghế hạng 2:</label>
+                <input class="form-control" id="slgh2"
+                       name="flight_time"
+                       required
+                       type="number" value="" readonly/>
+            </div>
+            <script>
+                document.getElementById("plane_id").addEventListener("change", function () {
+  const selectedOption = this.options[this.selectedIndex];
+
+  // Lấy dữ liệu từ thuộc tính `data-*`
+  const info1 = selectedOption.getAttribute("data-info1");
+  const info2 = selectedOption.getAttribute("data-info2");
+
+  // Gán dữ liệu vào các input
+  document.getElementById("slgh1").value = info1 || "";
+  document.getElementById("slgh2").value = info2 || "";
+});
+            </script>
+            <div class="form-floating mb-3 mt-3">
+                <label for="start_date">Ngày bay</label>
+                <input class="form-control" id="start_date" name="start_date" required type="datetime-local"/>
+            </div>
+            <div class="form-floating mb-3 mt-3">
+                <label for="flight_time">Thời gian bay</label>
+                <input class="form-control" id="flight_time" min="{{settings[1].value}}"
+                       name="flight_time"
+                       required
+                       type="number" value="{{settings[1].value}}"/>
+            </div>
+            <script>
+
+            </script>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked">
+                <label class="form-check-label" for="flexSwitchCheckChecked">Sân bay trung gian </label>
+
+            </div>
+            {% if settings[2].value > 0 %}
+            <div id="tuychonsanbaytrungian" style="display: none;">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Sân bay trung gian</th>
+                        <th>Thời gian dừng</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in range(settings[2].value)%}
+                    <tr>
+                        <td>{{i+1}}</td>
+                        <td>
+                            <select class="form-control form-control-md" id="sanbaytrunggian-{{i+1}}"
+                                    name="sanbaytrunggian-{{i+1}}">
+                                <option value="0">-- Chọn sân bay trung gian --</option>
+                                {% if list_airport %}
+                                {% for ii in list_airport%}
+                                <option value="{{ii.id}}">{{ii}}</option>
+                                {% endfor %}
+                                {% endif %}
+                            </select>
+                        </td>
+                        <td>
+                            <input class="form-control" id="thoigiandung-{{i+1}}"
+                                   max="{{settings[3].value}}"
+                                   min="{{settings[4].value}}" name="thoigiandung-{{i+1}}"
+                                   required
+                                   type="number" value="{{settings[4].value}}"/></td>
+                        <td>
+                            <input class="form-control" id="ghichu-{{i+1}}" name="ghichu-{{i+1}}" type="text"/></td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-floating mb-3 mt-3">
+                <label for="sum_flight_time">Tổng thời gian bay</label>
+                <input class="form-control" id="sum_flight_time" min="{{settings[2].value}}"
+                       name="sum_flight_time"
+                       required
+                       type="number" value="{{settings.thoi_gian_bay_toi_thieu}}" readonly/>
+            </div>
+            {% endif %}
+
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" type="submit">Xác nhận</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/LapLichChuyenBay.js') }}"></script>
+<div id="flightSettings"
+     data-max-stopovers="{{ settings[2].value }}">
+</div>
+{% else %}
+<script>
+    window.location.href='http://127.0.0.1:5000/'
+</script>
+{% endif %}
+
+{% endblock %}

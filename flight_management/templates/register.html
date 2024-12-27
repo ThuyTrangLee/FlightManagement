@@ -72,8 +72,8 @@
                     <input type="email" placeholder="Email" id="email" name="email" required/>
                 </div>
                 <div class="input-field">
-                    <label for="avatar">Ảnh đại diện</label>
-                    <input class="form-control" id="avatar" name="avatar" type="file">
+                    <i class="fas fa-user-circle"></i>
+                    <input type="file" class="form-control" placeholder="Avatar" id="avatar" name="avatar">
                 </div>
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
@@ -83,48 +83,44 @@
                     <i class="fas fa-key"></i>
                     <input type="password" placeholder="Xác nhận lại mật khẩu" id="confirm" name="confirm" required/>
                 </div>
+                <div class="pass" style="display: flex; font-size:12px; justify-content: flex-start; margin:10px"><input type="checkbox" onclick="myFunction()" >Hiển thị mật khẩu</div>
+
+
+                <script>
+                    function myFunction() {
+                      var x = document.getElementById("password");
+                      var xx = document.getElementById("confirm");
+                      if (x.type === "password") {
+                        x.type = "text";
+                      } else {
+                        x.type = "password";
+                      }
+                      if (xx.type === "password") {
+                        xx.type = "text";
+                      } else {
+                        xx.type = "password";
+                      }
+                    }
+                </script>
                 <input type="submit" value="Đăng ký" class="btn1"/>
-                <p class="social-text">Hoặc kết nối với</p>
-                <div class="social">
-                    <a href="#" class="social-icon1">
-                        <i class="fab fa-facebook"></i>
-                    </a>
-                    <a href="" class="social-icon1">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="" class="social-icon1">
-                        <i class="fab fa-google"></i>
-                    </a>
-                    <a href="" class="social-icon1">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                </div>
-                <p class="account-text">
-                    Đã có tài khoản? <a href="/login" id="sign-in-btn2">Đăng nhập</a>
-                </p>
             </form>
         </div>
         <div class="panels-container">
             <div class="panel left-panel">
                 <div class="content">
-                    <h3>AniPET Xin chào!</h3>
+                    <h3>NovaAirways chào mừng bạn đã trở lại!</h3>
                     <p>
-                        Hãy để chúng tôi nhận được sự tin tưởng của bạn bằng cách trở
-                        thành một trong những thành viên của gia đình AniPET.
+                         Đăng nhập tài khoản hiện tại của bạn để cùng đến chúng tôi.
                     </p>
-                    <a href="/login">
-                        <button class="btn1" id="sign-in-btn">Đăng nhập</button>
-                    </a>
-
+                    <button class="btn1" id="sign-in-btn">Đăng nhập</button>
                 </div>
                 <img src="signin.svg" alt="" class="image"/>
             </div>
             <div class="panel right-panel">
                 <div class="content">
-                    <h3>AniPET chào mừng bạn đã trở lại!</h3>
+                    <h3>Nova Airways Wellcome!</h3>
                     <p>
-                        Đăng nhập tài khoản hiện tại của bạn để cùng đến với gia đình
-                        AniPET
+                        Đăng ký tài khoản để nhận ngay các thông tin, ưu đãi mới nhất từ Nova Airways.
                     </p>
                     <button class="btn1" id="sign-up-btn">Đăng ký</button>
                 </div>

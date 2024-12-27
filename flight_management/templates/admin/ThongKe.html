@@ -1,0 +1,179 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="container mt-5">
+    <form action="" method="get">
+        <div class="row">
+            <div class="col">
+                <span><strong>Tháng thống kê</strong></span>
+                <select class="form-control form-control-md" id="month" name="month">
+                    {% if month %}
+                    {% for i in range(1,13)%}
+                    {% if month == i | string %}
+                    <option selected value="{{i}}">Tháng {{i}}</option>
+                    {% else %}
+                    <option value="{{i}}">Tháng {{i}}</option>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    {% for i in range(1,13)%}
+                    <option value="{{i}}">Tháng {{i}}</option>
+                    {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+            <div class="col">
+                <span><strong>Năm thống kê</strong></span>
+                <select class="form-control form-control-md" id="year" name="year">
+                    {% if month %}
+                    {% for i in range(2024,2026)%}
+                    {% if year == i | string %}
+                    <option selected value="{{i}}">Năm {{i}}</option>
+                    {% else %}
+                    <option value="{{i}}">Năm {{i}}</option>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    {% for i in range(2024,2026) %}
+                    <option value="{{i}}">Năm {{i}}</option>
+                    {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col d-flex justify-content-center mt-3">
+                <button class="btn btn-primary" type="submit">Thống kê</button>
+            </div>
+        </div>
+    </form>
+    {% if month %}
+    <div id="XuatFilePDF">
+        <div class="row">
+            <div class="col">
+                <canvas id="myChart" class="tttt"></canvas>
+            </div>
+            <div class="col">
+                <canvas id="myChart2" class="tttt"></canvas>
+            </div>
+        </div>
+
+        <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded mt-5 tttt">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th colspan="5" style="text-align: center;">BÁO CÁO DOANH THU THEO THÁNG</th>
+                </tr>
+                <tr>
+                    <th colspan="5" style="text-align: center;">THÁNG {{month}} NĂM {{year}}</th>
+                </tr>
+                <tr>
+                    <th>STT</th>
+                    <th>Tuyến bay</th>
+                    <th>Doanh thu</th>
+                    <th>Số lượt bay</th>
+                    <th>Tỷ lệ</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if labels %}
+                {% for d in range(0, labels | length) %}
+                <tr>
+                    <td>{{d+1}}</td>
+                    <td>{{labels[d]}}</td>
+                    <td>{{"{:,.0f}".format(data[d])}}</td>
+                    <td>{{count[d]}}</td>
+                    <td>{{"{:,.2f}".format(percent[d])}} %</td>
+                </tr>
+                {% endfor %}
+                <td colspan="2" style="text-align: left;">Tổng doanh thu:</td>
+                <td colspan="3" style="text-align: left;">{{ "{:,.0f}".format(data | sum) }} VNĐ</td>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <script>
+            const ctx = document.getElementById('myChart');
+            const ctx2 = document.getElementById('myChart2');
+
+            new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: {{ labels | tojson }},
+                datasets: [{
+                  label: 'Doanh thu',
+                  data: {{ data | tojson }},
+                  borderWidth: 1,
+                  yAxisID: 'y1'
+                }]
+              },
+              options: {
+                scales: {
+                  y1: {
+                    beginAtZero: true,
+                  }
+                }
+              }
+            });
+                new Chart(ctx2, {
+              type: 'pie',
+              data: {
+                labels: {{ labels | tojson }},
+                datasets: [{
+                  label: 'Tỷ lệ',
+                  data: {{ percent | tojson }},
+                  borderWidth: 1,
+                  yAxisID: 'y1'
+                }]
+              },
+              options: {
+                scales: {
+                  y1: {
+                    beginAtZero: true,
+                  }
+                }
+              }
+            });
+        </script>
+
+    </div>
+        <div class="row">
+        <div class="col d-flex justify-content-end mb-5">
+            <button class="btn btn-success" id="save-pdf">Xuất PDF</button>
+        </div>
+    </div>
+    {% endif %}
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+            document.getElementById('save-pdf').addEventListener('click', async () => {
+                const { jsPDF } = window.jspdf;
+
+                // Lấy phần tử HTML cần lưu thành PDF
+                const element = document.getElementById('XuatFilePDF'); // Hoặc chỉ định ID/CLASS cụ thể, ví dụ: document.getElementById('content')
+
+                // Chụp màn hình HTML thành ảnh với html2canvas
+                const canvas = await html2canvas(element, {
+                    scale: 2, // Tăng chất lượng ảnh
+                });
+
+                // Chuyển canvas thành hình ảnh
+                const imgData = canvas.toDataURL('image/png');
+
+                // Tạo file PDF
+                const pdf = new jsPDF('p', 'mm', 'a4'); // 'p': portrait, 'mm': đơn vị mm, 'a4': kích thước giấy
+
+                // Tính kích thước ảnh trong PDF
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                // Thêm ảnh vào PDF
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+                // Lưu file PDF
+                pdf.save('Báo cáo thống kê Tháng {{month}} Năm {{year}}.pdf');
+            });
+        </script>
+
+{% endblock %}

@@ -1,0 +1,161 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<div class="container mt-5">
+    <h1 class="display-5 fw-bold text-primary text-center mt-5">Tra cứu chuyến bay</h1>
+    {% if msg %}
+    <div class="alert alert-danger">{{msg}}</div>
+    {% endif%}
+    <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded mt-3">
+        <form action="/admin/tracuuview" method="get">
+            <div class="row">
+                <div class="form-check" style="margin:10px 20px;">
+                    <label class="form-check-label" >
+                        <input type="radio" class="form-check-input" checked value="1" name="mode">Một chiều
+                    </label>
+                </div>
+                <div class="form-check" style="margin:10px 20px;>
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" value="2" name="mode">Khứ hồi
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <span><strong>Nơi Đi</strong></span>
+                    <select class="form-control form-control-md" id="from" name="from">
+                        <option value="0">-- Chọn nơi đi --</option>
+                        {% if airport %}
+                        {% if from %}
+                        {% for p in airport %}
+                        {% if from | int == p.id %}
+                        <option selected value="{{p.id}}">{{p.address}}</option>
+                        {% else %}
+                        <option value="{{p.id}}">{{p.address}}</option>
+                        {% endif %}
+                        {% endfor %}
+                        {% else %}
+                        {% for p in airport %}
+                        <option value="{{p.id}}">{{p.address}}</option>
+                        {% endfor %}
+                        {% endif %}
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="col">
+                    <span><strong>Nơi Đến</strong></span>
+                    <select class="form-control form-control-md" id="to" name="to">
+                        <option value="0">-- Chọn nơi đến --</option>
+                        {% if airport %}
+                        {% if to %}
+                        {% for p in airport %}
+                        {% if to | int == p.id %}
+                        <option selected value="{{p.id}}">{{p.address}}</option>
+                        {% else %}
+                        <option value="{{p.id}}">{{p.address}}</option>
+                        {% endif %}
+                        {% endfor %}
+                        {% else %}
+                        {% for p in airport %}
+                        <option value="{{p.id}}">{{p.address}}</option>
+                        {% endfor %}
+                        {% endif %}
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="col">
+                    <span><strong>Ngày Đi</strong></span>
+                    {% if ngaydi %}
+                    <input class="form-control" id="departure" name="departure" type="date"">
+                    {% else %}
+                    <input class="form-control" id="departure" name="departure" type="date">
+                    {% endif %}
+                </div>
+                <div class="col" id="returnDateContainer" style="display: none;">
+                    <span><strong>Ngày Về</strong></span>
+                    <input class="form-control" id="return" name="return" type="date">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-center mt-3">
+                    <button class="btn btn-primary d-flex gap-2" type="submit">
+                        Tìm kiếm
+                    </button>
+                    <button class="btn btn-danger d-flex gap-2 ms-5 ml-5" onclick="clearInput()" type="button">
+                        Xoá
+                    </button>
+                    <script>
+                        const mode = document.getElementById('mode');
+
+                function clearInput() {
+                    document.getElementById("from").value = "0";
+                    document.getElementById("to").value = "0";
+                    document.getElementById("departure").value = "";
+                    document.getElementById("return").value = "";
+                }
+                    </script>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Chuyến bay</th>
+                <th>Ngày bay</th>
+                <th>Giờ bay</th>
+                <th>Thời gian bay</th>
+                <th></th>
+            </tr>
+            </thead>
+            {% if list_flight %}
+            <tbody>
+            {% for p in list_flight %}
+            <tr>
+                <td>{{p.flight_route}}</td>
+                <td>{{p.start_datetime.strftime('%Y-%m-%d')}}</td>
+                <td>{{p.start_datetime.strftime('%H:%M:%S')}}</td>
+                <td>{{p.flight_time}}</td>
+                <td>
+                    <a href="/admin/banveview/?id={{ p.id }}">
+                        <button class="btn btn-primary">Xem chi tiết</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+        </table>
+        <h3 align="center" class="text text-danger">Không tìm thấy chuyến bay phù hợp</h3>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const radioOneWay = document.querySelector('input[name="mode"][value="1"]'); // Radio button "Một chiều"
+        const radioRoundTrip = document.querySelector('input[name="mode"][value="2"]'); // Radio button "Khứ hồi"
+        const returnDateContainer = document.getElementById("returnDateContainer"); // Container Ngày Về
+
+        function toggleReturnDate() {
+            if (radioRoundTrip.checked) {
+                returnDateContainer.style.display = "block"; // Hiện Ngày Về
+            } else {
+                returnDateContainer.style.display = "none"; // Ẩn Ngày Về
+                document.getElementById("return").value = ""; // Xóa giá trị Ngày Về
+            }
+        }
+
+        // Gắn sự kiện thay đổi cho các radio button
+        radioOneWay.addEventListener("change", toggleReturnDate);
+        radioRoundTrip.addEventListener("change", toggleReturnDate);
+
+        // Đặt trạng thái ban đầu khi trang tải
+        toggleReturnDate();
+    });
+</script>
+
+
+{% endblock %}

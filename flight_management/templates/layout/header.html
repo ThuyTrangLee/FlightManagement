@@ -9,7 +9,8 @@
                 <li><a href="/" class="item" id="ab" class="active">Trang&nbsp;chủ</a></li>
                 <li><a href="/discover" class="item">Khám&nbsp;phá</a></li>
                 <li><a href="/search" class="item">Tra&nbsp;cứu&nbsp;chuyến&nbsp;bay</a></li>
-                <li><a href="" class="item">Đặt&nbsp;vé</a></li>
+                <li><a href="/datve" class="item">Đặt&nbsp;vé</a></li>
+                <li><a href="/myflight" class="item">Chuyến bay của tôi</a></li>
                 <li><a href="/contact" class="item">Liên&nbsp;hệ</a></li>
 
             </ul>
@@ -18,11 +19,11 @@
                 <a class="logo_logout " href="/">
                     <img src="{{ current_user.avatar }}" loading="lazy"
                          style="width: 50px; height: 50px; object-fit: cover; font-family:Montserrat" alt="logo"/>{{
-                    current_user.Name }}.
+                    current_user.name }}.
                 </a>
                 <a href="/log_out">
-                        <i class="fa fa-sign-out"
-                           style="padding: 10px; margin-left: 10px; font-size: 18px; color: #CC0000" ></i>
+                    <i class="fa fa-sign-out"
+                       style="padding: 10px; margin-left: 10px; font-size: 18px; color: #CC0000"></i>
                 </a>
                 {%else %}
                 <div class="actions">

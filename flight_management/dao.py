@@ -12,7 +12,6 @@ def load_user(user_id):
 
 def auth_user(username, password):
     password =str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
-    print(password)
     return model.User.query.filter(model.User.username.__eq__(username.strip()),
                              model.User.password.__eq__(password)).first()
 
@@ -56,7 +55,7 @@ def get_list_flight_in_search(fromm=None, to=None, departure=None):
     query = model.Flight.query
 
     if not fromm and not to and not departure:
-        return query.limit(6).all()
+        return query.order_by(model.Flight.start_datetime).limit(6).all()
 
     if fromm and int(fromm) > 0:
         query = query.filter(model.Flight.flight_route.has(
@@ -72,3 +71,37 @@ def get_list_flight_in_search(fromm=None, to=None, departure=None):
         query = query.filter(func.date(model.Flight.start_datetime) == departure)
 
     return query.order_by(model.Flight.start_datetime).all()
+
+def get_list_flight_in_datve(fromm=None, to=None, departure=None):
+    query = model.Flight.query
+
+    if not fromm and not to and not departure:
+        return []
+
+    if fromm and int(fromm) > 0:
+        query = query.filter(model.Flight.flight_route.has(
+            model.FlightRoute.departure_id == int(fromm)
+        ))
+
+    if to and int(to) > 0:
+        query = query.filter(model.Flight.flight_route.has(
+            model.FlightRoute.arrival_id == int(to)
+        ))
+
+    if departure:
+        query = query.filter(func.date(model.Flight.start_datetime) == departure)
+
+    return query.order_by(model.Flight.start_datetime).all()
+
+def add_flight(staff_id, flight_route_id, plane_id, start_datetime, flight_time):
+    flight = model.Flight(staff_id=staff_id,flight_route_id=flight_route_id, start_datetime=start_datetime,
+                           flight_time=flight_time, plane_id=plane_id)
+    db.session.add(flight)
+    db.session.commit()
+
+    return flight.id
+
+def add_airport_in(flight_route_id, airport_id, stop_time, note):
+    airport_in = model.IntermAirport(flight_route_id=flight_route_id, airport_id=airport_id, stop_time=stop_time, note=note)
+    db.session.add(airport_in)
+    db.session.commit()

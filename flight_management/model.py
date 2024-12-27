@@ -125,6 +125,7 @@ class Seat(Base):
     def __str__(self):
         return f"{self.vertical.value}{self.horizontal}"
 
+
 class ReservedSeat(Base):
     __tablename__ = 'reserved_seat'
 
@@ -146,6 +147,11 @@ class Plane(Base):
     def __str__(self):
         return self.name
 
+    def getSoLuongGheHang1(self):
+        return  Seat.query.filter(Seat.plane_id == self.id, Seat.ticket_class_id==1).count()
+
+    def getSoLuongGheHang2(self):
+        return Seat.query.filter(Seat.plane_id == self.id, Seat.ticket_class_id==2).count()
 
 # hạng vé
 class TicketClass(Base):
@@ -173,7 +179,13 @@ class Flight(Base):
     plane_id = Column(Integer, ForeignKey('plane.id'), nullable=False)
     plane = relationship('Plane', backref='flights', lazy=True, foreign_keys=[plane_id])
 
-# HangVeChuyenBay
+    def getHour(self):
+        gio = self.flight_time // 60
+        phut = self.flight_time % 60
+        if gio == 0:
+            return f"{phut} Phút"
+        return f"{gio} Giờ {phut} Phút"
+# danh sách đơn giá vé
 class TicketPrice(Base):
     __tablename__ ='ticket_price'
 
@@ -188,7 +200,6 @@ class TicketPrice(Base):
     __table_args__ = (
         UniqueConstraint('ticket_class_id', 'flight_id'),
     )
-
 # vé
 class Ticket(Base):
     __tablename__ ='ticket'
@@ -203,8 +214,8 @@ class Ticket(Base):
     customer = relationship('User', backref='tickets', lazy=True, foreign_keys=[customer_id])
 
     name = Column(String(50))
-    phone = Column(String(10), unique=True)
-    cccd = Column(String(12), unique=True)
+    phone = Column(String(10))
+    cccd = Column(String(12))
     email = Column(String(50))
 
     price = Column(Float, nullable=False)

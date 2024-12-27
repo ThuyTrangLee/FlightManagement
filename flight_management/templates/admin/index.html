@@ -1,27 +1,16 @@
 {% extends 'admin/master.html' %}
-{% block access_control %}
-<ul class="navbar-nav me-1">
-    {% if current_user.is_authenticated %}
-    <li class="nav-item">
-        <a class="nav-link text-danger" href="/">
-            <img class="rounded-circle" src="{{ current_user.avatar }}" loading="lazy"
-                 style="width: 30px; height: 30px; object-fit: cover;"/>
-            {{ current_user.username }}.
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-success" href="/log_out" >Đăng xuất</a>
-    </li>
-    {% endif %}
-</ul>
-{% endblock %}
 {% block body %}
-<h1 class="text-center">Chào mừng tới trang quản trị</h1>
 {% if current_user.is_authenticated %}
+{% if current_user.user_role.name.__eq__('ADMIN') %}
+<h1 class="text-center">Chào mừng tới trang quản trị</h1>
 <h1 class="text-success text-center">Chào mừng trở lại, {{ current_user.username }}</h1>
+{% elif current_user.user_role.name.__eq__('STAFF')%}
+<h1 class="text-center">Chào mừng tới trang quản lý</h1>
+<h1 class="text-success text-center">Chào mừng trở lại, {{ current_user.username }}</h1>
+{% endif %}
 {% else %}
 <h1 class="text-info mt-1 text-center">Đăng nhập người dùng</h1>
-<form method="post" action="/login">
+<form method="post" action="/admin_login">
     <div class="form-group mb-3 mt-3">
         <label for="username">Tên đăng nhập</label>
         <input required type="text" class="form-control" id="username" placeholder="Tên đăng nhập"
