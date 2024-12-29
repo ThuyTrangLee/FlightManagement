@@ -91,6 +91,8 @@ def datve():
 @app.route('/login', methods=['GET', 'POST'])
 def login_process():
     mse = ""
+    if current_user.is_authenticated:
+        return redirect('/')
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -175,8 +177,6 @@ def logout():
 
 
 @app.route('/home')
-@login_required
-# @role_only([UserRole.STAFF, UserRole.CUSTOMER])
 def home():
     if current_user.is_authenticated:
         if current_user.user_role == UserRole.ADMIN or current_user.user_role == UserRole.STAFF:
@@ -185,26 +185,24 @@ def home():
 
 
 # Lập lịch chuyến bay
-@app.route('/api/create_flight_schedule', methods=['POST'])
-# @login_required
-# @role_only([UserRole.STAFF])
-def create_flight_schedule():
-    if request.method.__eq__('POST'):
-        depart = request.form.get('depart')
-        plane = request.form.get('plane')
-        depart_date_time = request.form.get('depart_date_time')
-        flight_duration = request.form.get('flight_duration')
-        tickets_data = json.loads(request.form.get('tickets_data'))
-        im_airport = json.loads(request.form.get('im_airport'))
-
-        try:
-            dao.add_flight_schedule(depart, depart_date_time, flight_duration, plane, tickets_data, im_airport)
-        except Exception as ex:
-            print(ex)
-            return redirect('/admin/')
-        else:
-            return redirect('/admin/')
-
+# @app.route('/api/create_flight_schedule', methods=['POST'])
+# def create_flight_schedule():
+#     if request.method.__eq__('POST'):
+#         depart = request.form.get('depart')
+#         plane = request.form.get('plane')
+#         depart_date_time = request.form.get('depart_date_time')
+#         flight_duration = request.form.get('flight_duration')
+#         tickets_data = json.loads(request.form.get('tickets_data'))
+#         im_airport = json.loads(request.form.get('im_airport'))
+#
+#         try:
+#             dao.add_flight_schedule(depart, depart_date_time, flight_duration, plane, tickets_data, im_airport)
+#         except Exception as ex:
+#             print(ex)
+#             return redirect('/admin/')
+#         else:
+#             return redirect('/admin/')
+#
 
 @app.route('/contact')
 def contact():
@@ -227,7 +225,11 @@ def tickets_info(id):
     if current_user.is_authenticated:
         if current_user.user_role == UserRole.ADMIN or current_user.user_role == UserRole.STAFF:
             return redirect("/admin")
+
     if not current_user.is_authenticated:
+        return redirect('/login')
+
+    if not model.Flight.query.filter_by(id=id).first():
         return redirect('/login')
 
     flight = model.Flight.query.filter_by(id=id).first()
@@ -255,7 +257,7 @@ def tickets_info(id):
                            reversed_seats_id=reversed_seats_id,
                            is_con_han=is_con_han)
 
-
+# lich su mua ve
 @app.route('/myflight')
 def my_flight():
     if current_user.is_authenticated:
@@ -274,9 +276,9 @@ def cancel_payment():
 @app.route('/success')
 def success_payment():
     if current_user.is_authenticated:
-        status = request.args.get('status')
+        status = request.args.get('status') #trang thai
         orderCode = request.args.get('orderCode')
-        if status == 'PAID' and int(orderCode) == session.get('orderCode'):
+        if status == 'PAID' and int(orderCode) == session.get('orderCode'): #kiem tra dung order code
             try:
                 ticket = model.Ticket(seat_id=session.get('seat_selected_id'),
                                       flight_id=session.get('flight_id'),
@@ -326,6 +328,7 @@ def success_payment():
 </body>
                                 </html>
                                 """
+            # bat dau goi mail
             msg = Message("Xác nhận đặt vé thành công", sender='your_email@gmail.com', recipients=[ticket.email])
             msg.html = form_html
             mail.send(msg)
@@ -337,6 +340,7 @@ def success_payment():
 def create_payment_link():
 
     try:
+        # luu thong tin nguoi dung
         session['cccd'] = request.form.get('cccd')
         session['name'] = request.form.get('name')
         session['phone'] = request.form.get('phone')
@@ -345,6 +349,7 @@ def create_payment_link():
         session['seat_selected_id'] = request.form.get('seat_selected_id')
         session['seat_price'] = request.form.get('seat_price')
 
+        # chi tiet don hang
         flight = model.Flight.query.filter_by(id=session['flight_id']).first()
 
         orderCode = int(time.time())
@@ -352,6 +357,7 @@ def create_payment_link():
 
         item = ItemData(name=f"{flight.flight_route}", quantity=1,
                         price=int(float(session['seat_price'])))
+        # tao thanh toan
         payment_data = PaymentData(
             orderCode=orderCode,
             amount=int(float(session.get('seat_price'))),
@@ -359,7 +365,7 @@ def create_payment_link():
             items=[item],
             cancelUrl="http://127.0.0.1:5000/cancel",
             returnUrl="http://127.0.0.1:5000/success",
-            expiredAt=orderCode + 600
+            expiredAt=orderCode + 600 #gioi han thoi gian thanh toan 600s
         )
         payment_link_response = payos.createPaymentLink(payment_data)
     except Exception as e:

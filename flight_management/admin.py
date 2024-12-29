@@ -181,7 +181,7 @@ class LapLichChuyenBayView(BaseView):
                     airport_in = request.form.get(f'sanbaytrunggian-{i + 1}')
                     if airport_in and int(airport_in) > 0:
                         list_airport_id.append(int(airport_in))
-
+                #     Kiểm tra sân bay trùng lặp
                 if len(list_airport_id) != len(set(list_airport_id)):
                     flash("Sân bay trung gian không hợp lệ", 'danger')
                     return redirect('/admin/laplichchuyenbayview/')
@@ -358,22 +358,24 @@ class ThongKeView(BaseView):
             max = 0  #sl chuyen bay max
             list_flight_route = model.FlightRoute.query.order_by('id').all() #lay all tuyen bay theo id
             total_price_all_flight_routes = 0 #tong doanh thu
+            # Tong cua tung tuyen bay
             for flight_route in list_flight_route:
                 total_price_flight_route = 0
                 count_flight = 0 #so tuyen bay
                 flag = False
+                # Tong chuyen trong tung tuyen
                 for flight in flight_route.flights:
                     for ticket in flight.tickets:
                         if ticket.created_date.month == int(month) and ticket.created_date.year == int(year):
                             total_price_flight_route += ticket.price
                             flag = True
                     if flag:
-                        count_flight += 1
+                        count_flight += 1 #dem so lan bay
                 if count_flight > max:
                     max = count_flight
                 total_price_all_flight_routes += total_price_flight_route
-                data[flight_route.getAddress()] = [total_price_flight_route, count_flight] #luu dl thong ke
-            # tinh theo % de thong ke bieu do tron
+                data[flight_route.getAddress()] = [total_price_flight_route, count_flight] #luu dl thong ke key value value
+            # tinh theo % de thong ke bieu do tron. ti le
             for flight_route_name, values in data.items():
                 total_price_flight_route = values[0]
                 if total_price_all_flight_routes > 0:
