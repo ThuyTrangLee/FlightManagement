@@ -1,43 +1,35 @@
 # ✈️ Flight Management System
 
-Hệ thống **Quản lý chuyến bay** hỗ trợ đặt vé trực tuyến, bán vé tại quầy, lập lịch chuyến bay, thống kê doanh thu và quản trị quy định. Dự án được thực hiện trong phạm vi môn học *CÔng nghệ phần mềm*.
+Hệ thống **Quản lý chuyến bay** hỗ trợ khách hàng và nhân viên trong việc đặt vé, bán vé, lập lịch chuyến bay, thống kê doanh thu và quản trị quy định.  
+*Software Engineering – Course Project.*
 
 ---
 
 ## 📌 Tính năng chính
-- **Đặt vé trực tuyến**: tìm chuyến bay → chọn ghế → thanh toán online → nhận e-ticket qua email.
-- **Tra cứu chuyến bay** theo tuyến bay, ngày đi/về.
+- **Đặt vé trực tuyến**: tìm chuyến bay → chọn ghế → thanh toán online → nhận e‑ticket qua email.
+- **Tra cứu chuyến bay** theo tuyến, ngày đi/về.
 - **Nhân viên bán vé** tại quầy (nhập thông tin khách, xác nhận thanh toán).
 - **Lập lịch chuyến bay**: thời gian bay, sân bay trung gian, hạng vé.
-- **Thống kê – Báo cáo** doanh thu theo tháng/tuyến bay, **xuất PDF**.
-- **Thay đổi quy định** hệ thống (số sân bay, thời gian bay tối thiểu/tối đa, hạng vé, đơn giá, thời gian bán/đặt vé).
-- **Email thông báo** sau khi thanh toán thành công.
+- **Thống kê – Báo cáo** doanh thu theo tháng/tuyến; **xuất PDF**.
+- **Quản trị quy định**: số sân bay, thời gian bay tối thiểu/tối đa, hạng vé, đơn giá, thời gian bán/đặt vé.
 
-> Use cases chính: Khách hàng đặt vé (UC01), Nhân viên bán vé (UC02), Lập lịch chuyến bay (UC03),
-> Thống kê báo cáo (UC04), Thay đổi quy định (UC05).
-
----
-
-## 🧩 Kiến trúc & Mô hình (UML/ERD)
-- **Use Case Diagram** & đặc tả chi tiết cho 5 nhóm chức năng.
-- **Class/Activity/Sequence Diagrams** mô tả luồng và tương tác.
-- **ERD** các bảng điển hình: `flight_route`, `airport`, `flight`, `plane`, `ticket`, `seat`, `ticket_class`, `user`…
-
-> Tham khảo thư mục `/docs` (nếu có) để xem hình UML/ERD.
+> Use cases: Khách hàng đặt vé (UC01), Nhân viên bán vé (UC02), Lập lịch (UC03), Thống kê (UC04), Thay đổi quy định (UC05).
 
 ---
 
 ## 🛠️ Công nghệ sử dụng
-- **Backend/Frontend**: (tuỳ nhóm triển khai: ASP.NET MVC / Java / PHP, v.v.)
-- **Database**: SQL Server hoặc MySQL
-- **Charts**: Chart.js (thống kê)
-- **Export**: PDF export
-- **Payment**: Thanh toán online (ví dụ: PayOS/QR)
+- Ngôn ngữ: Python, HTML, CSS, JavaScript  
+- Môi trường phát triển: PyCharm, MySQL
+- Công cụ mô hình hóa: Astah UML (Use ase, Class Diagram, Activity Diagram, Sequence Diagram), ERD
+- Công cụ trực quan hóa: ChartJS (thống kê, báo cáo) 
+- Xuất báo cáo: PDF Export
+- Thanh toán: QR Code
 
 ---
 
-## 🚀 Cách chạy (gợi ý)
-1. **Clone** repo:
-   ```bash
-   git clone https://github.com/<your-username>/FlightManagement.git
-   cd FlightManagement
+## 🧩 Kiến trúc & Mô hình
+- **Use Case & đặc tả** cho 5 nhóm chức năng.
+- **UML**: Class / Activity / Sequence để mô tả luồng & tương tác.
+- **ERD** cho các thực thể: `flight_route`, `airport`, `flight`, `plane`, `ticket`, `seat`, `ticket_class`, `user`, …
+
+---
